@@ -11,7 +11,7 @@ namespace PokemonTextAdventure
     {
         static void Main(string[] args)
         {
-            new Pokemon;
+            
         }
     }
 
