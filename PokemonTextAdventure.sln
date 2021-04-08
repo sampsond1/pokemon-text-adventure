@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonTextAdventure", "PokemonTextAdventure\PokemonTextAdventure.csproj", "{BE81F1FA-495C-4655-A192-7BC1AA0E2E94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonDictionary", "PokemonDictionary\PokemonDictionary.csproj", "{ADD95B35-825A-4BBB-8BAC-CBFCE7E4D0E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE81F1FA-495C-4655-A192-7BC1AA0E2E94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE81F1FA-495C-4655-A192-7BC1AA0E2E94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE81F1FA-495C-4655-A192-7BC1AA0E2E94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE81F1FA-495C-4655-A192-7BC1AA0E2E94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADD95B35-825A-4BBB-8BAC-CBFCE7E4D0E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADD95B35-825A-4BBB-8BAC-CBFCE7E4D0E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADD95B35-825A-4BBB-8BAC-CBFCE7E4D0E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADD95B35-825A-4BBB-8BAC-CBFCE7E4D0E4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
