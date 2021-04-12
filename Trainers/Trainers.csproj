@@ -52,16 +52,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Moves\Moves.csproj">
-      <Project>{030f2af1-5d8d-4777-b023-e4b3b8ef9553}</Project>
-      <Name>Moves</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PokemonDictionary\Pokemon.csproj">
-      <Project>{add95b35-825a-4bbb-8bac-cbfce7e4d0e4}</Project>
-      <Name>Pokemon</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
