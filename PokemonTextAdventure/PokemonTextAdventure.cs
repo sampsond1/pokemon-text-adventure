@@ -10,7 +10,15 @@ namespace PokemonTextAdventure
     {
         static void Main(string[] args)
         {
-            Methods.PopulateDictionaries();
+            Dictionary<int, Pokemon> pokedex = new Dictionary<int, Pokemon>();
+            Dictionary<int, Move> movedex = new Dictionary<int, Move>();
+            Dictionary<int, Location> locationdex = new Dictionary<int, Location>();
+
+            Methods.Populate(movedex, pokedex);
+            Console.ReadLine();
+            Console.WriteLine(movedex[1].moveName);
+            Console.WriteLine(pokedex[1].name);
+            Console.ReadLine();
         }
     }
 
