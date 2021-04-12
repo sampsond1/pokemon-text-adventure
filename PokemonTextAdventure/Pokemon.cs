@@ -30,8 +30,7 @@ namespace PokemonTextAdventure
         public int id;
         public string name;
         public int level;
-        public Move move1;
-        public Move move2;
+        public Move[] move = new Move[2];
         public string type;
 
         public int maxHitPoints;
@@ -42,8 +41,8 @@ namespace PokemonTextAdventure
             id = _id;
             name = _name;
             level = _level;
-            move1 = _move1;
-            move2 = _move2;
+            move[0] = _move1;
+            move[1] = _move2;
             type = _type;
 
             maxHitPoints = level * 10;
@@ -55,8 +54,8 @@ namespace PokemonTextAdventure
 			id = _id;
 			name = _pokedex[_id].name;
 			level = _pokedex[_id].level;
-			move1 = _pokedex[_id].move1;
-			move2 = _pokedex[_id].move2;
+			move[1] = _pokedex[_id].move[0];
+			move[2] = _pokedex[_id].move[1];
 			type = _pokedex[_id].type;
 
 			maxHitPoints = level * 10;
@@ -68,9 +67,9 @@ namespace PokemonTextAdventure
 			id = _id;
 			name = _pokedex[_id].name;
 			level = _level;
-			move1 = _pokedex[_id].move1;
-			move2 = _pokedex[_id].move2;
-			type = _pokedex[_id].type;
+            move[1] = _pokedex[_id].move[0];
+            move[2] = _pokedex[_id].move[1];
+            type = _pokedex[_id].type;
 
 			maxHitPoints = level * 10;
 			currentHitPoints = maxHitPoints;

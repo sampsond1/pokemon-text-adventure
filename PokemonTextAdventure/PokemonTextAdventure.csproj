@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Locations.cs" />
     <Compile Include="Moves.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Pokemon.cs" />
     <Compile Include="PokemonTextAdventure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -20,5 +20,13 @@ namespace PokemonTextAdventure
         public string description;
         public List<Trainer> trainerBattles;
         public List<Location> exitLocations;
+
+        public Location(string _name, string _description, List<Trainer> _trainerBattles, List<Location> _exitLocations)
+        {
+            name = _name;
+            description = _description;
+            trainerBattles = _trainerBattles;
+            exitLocations = _exitLocations;
+        }
     }
 }

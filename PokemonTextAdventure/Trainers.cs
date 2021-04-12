@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace PokemonTextAdventure
 {
+    public partial class Methods
+    {
+        public static void Populate(Dictionary<int, Trainer> _trainerdex)
+        {
+
+        }
+    }
+
     public class Trainer
     {
         public string name;
