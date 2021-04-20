@@ -12,8 +12,8 @@ namespace PokemonTextAdventure
         {
             string currentCommand;
 
-            Dictionary<int, Pokemon> pokedex = new Dictionary<int, Pokemon>();
-            Dictionary<int, Move> movedex = new Dictionary<int, Move>();
+            Dictionary<string, Pokemon> pokedex = new Dictionary<string, Pokemon>();
+            Dictionary<string, Move> movedex = new Dictionary<string, Move>();
             Dictionary<int, Trainer> trainerdex = new Dictionary<int, Trainer>();
             Dictionary<int, Location> locationdex = new Dictionary<int, Location>();
 
