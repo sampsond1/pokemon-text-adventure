@@ -79,10 +79,43 @@ namespace PokemonTextAdventure
             _movedex.Add("Mirror Move", new Move("Mirror Move", 20, 0, 100, 0, 1, false, false, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)); // SIMILAR VERY SPECIAL CASE
             _movedex.Add("Night Shade", new Move("Night Shade", 15, 0, 100)); //SPECIAL CASE
             _movedex.Add("Pay Day", new Move("Pay Day", 20, 40, 100));
+			_movedex.Add("Peck", new Move("Peck", 35, 35, 100));
+			_movedex.Add("Petal Dance", new Move("Petal Dance", 20,70,100));
+			_movedex.Add("Poison Gas", new Move("Poison Gas", 40, 0, 55, .0625, 1, false, true, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1));
+			_movedex.Add("Poison Powder", new Move("Poison Powder", 35, 0, 75, .0625, 1, false, true, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1));
+			_movedex.Add("Poison Sting", new Move("Poison Sting", 35, 15, 100, .0625, 1, false, true, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, .2));
+			_movedex.Add("Pound", new Move("Pound", 35, 40, 100));
+			_movedex.Add("Psybeam", new Move("Psybeam", 20, 65, 100));
+			_movedex.Add("Psychic", new Move("Psychic", 10, 90, 100));
+			_movedex.Add("Quick Attack", new Move("Quick Attack", 30, 40, 100)); //SPECIAL CASE
+			_movedex.Add("Razor Leaf", new Move("Razor Leaf", 25, 55, 95, .125, 1, false, false, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1));
+			_movedex.Add("Recover", new Move("Recover", 20, 0, 100, 0, 1, false, false, false, false, false, false, false, 0, 0, .5, 0, 0, 0, 0, 0, 0, 0, 1));
+			_movedex.Add("Rest", new Move("Rest", 10, 0, 100, .0, 1, false, false, false, false, false, false, false, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1)); //SPECIAL CASE
+			_movedex.Add("Rock Throw", new Move("Rock Throw", 15, 50, 65));
+			_movedex.Add("Rolling Kick", new Move("Rolling Kick", 15, 60, 85, .0625, 1, false, false, false, false, true, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, .3));
+			_movedex.Add("Sand Attack", new Move("Sand Attack", 15, 0, 100, .0625, 1, false, false, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 1));
+			_movedex.Add("Scratch", new Move("Scratch", 35, 40, 100));
+			_movedex.Add("Screech", new Move("Screech", 40, 0, 85, .0625, 1, false, false, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0, 1));
+			_movedex.Add("Self Destruct", new Move("Self Destruct", 5, 130, 100, .0625, 1, false, false, false, false, false, false, false, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1));
+			_movedex.Add("Sharpen", new Move("Sharpen", 30, 0, 100, 0, 1, false, false, false, false, false, false, false, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 1));
+			_movedex.Add("Sing", new Move("Sing", 15, 0, 55, 0, 1, false, false, true, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1));
+			_movedex.Add("Sky Attack", new Move("Sky Attack", 5, 140, 90, .0625, 1, false, false, false, false, false, true, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1));
+			_movedex.Add("Slam", new Move("Slam", 20, 80, 75));
+			_movedex.Add("Slash", new Move("Slash", 20, 70, 100, .125, 1, false, false, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1));
+			_movedex.Add("Sleep Powder", new Move("Sleep Powder", 15, 0, 75, 0, 1, false, false, true, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1));
+			_movedex.Add("Sludge", new Move("Sludge", 20, 65, 100, .0625, 1, false, true, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, .5));
+			_movedex.Add("Smog", new Move("Smog", 20, 20, 70, .0625, 1, false, true, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, .5));
+			_movedex.Add("Smokescreen", new Move("Smokescreen", 20, 0, 100, 0, 1, false, false, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 1));
+			_movedex.Add("Solar Beam", new Move("Solar Beam", 10, 120, 100, .0625, 1, false, false, false, false, false, true, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1));
+			_movedex.Add("Sonic Boom", new Move("Sonic Boom", 20, 20, 90));
+			_movedex.Add("Spike Cannon", new Move("Spike Cannon", 15, 20, 100, .0625, 5, false, false, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1));
+			_movedex.Add("Splash", new Move("Splash", 40, 0, 100)); //SPECIAL CASE?
+			_movedex.Add("Spore", new Move("Spore", 15, 0, 100, 0, 1, false, false, true, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1));
+			_movedex.Add("Stomp", new Move("Stomp", 20, 65, 100, .0625, 1, false, false, false, false, true, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, .3));
 
 
 
-            //                                                         .0625, 1, false, false, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
+            //                                                         .0625, 1, false, false, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
             //                                                          ^    NoT   ^   Poison    ^  Paralysis  ^    Before   ^    ^  ^  ^  ^  ^  ^  ^  ^  ^  ^  ^
             //                                                        CritHit    Burn          Sleep         Flinch        After  | rcol|atkB |critB|DefP |SpdP EffectChance
             //                                                                                                                   Grip  Heal  DefB AtkP  SpdB

@@ -31,6 +31,7 @@ namespace PokemonTextAdventure
         public int defensePenalty;
         public int speedBoost;
         public int speedPenalty;
+		public int accuracyPenalty;
         public double effectChance;
 
         public Move(string _moveName, int _powerPoints, int _moveDamage, int _moveAccuracy)
@@ -57,6 +58,7 @@ namespace PokemonTextAdventure
             attackPenalty = 0;
             defensePenalty = 0;
             speedBoost = 0;
+			accuracyPenalty = 0;
             effectChance = 1;
 
         }
@@ -115,6 +117,36 @@ namespace PokemonTextAdventure
             defensePenalty = _defensePenalty;
             speedBoost = _speedBoost;
             speedPenalty = _speedPenalty;
+            effectChance = _effectChance;
+        }
+
+		public Move(string _moveName, int _powerPoints, int _damage, int _accuracy, double _critChance, int _numberTimesHit, bool _causeBurn, bool _causePoison, bool _causeSleep, bool _causeParalysis,
+            bool _causeFlinch, bool _restBefore, bool _restAfter, int _gripDamage, double _recoilDamage, double _hpGain, int _attackBoost, int _defenseBoost, int _critBoost, int _attackPenalty, int _defensePenalty, int _speedBoost, int _speedPenalty, int _accuracyPenalty double _effectChance)
+        {
+            name = _moveName;
+            powerPoints = _powerPoints;
+            damage = _damage;
+            accuracy = _accuracy;
+            critChance = _critChance;
+            numberTimesHit = _numberTimesHit;
+            causeBurn = _causeBurn;
+            causePoison = _causePoison;
+            causeSleep = _causeSleep;
+            causeParalysis = _causeParalysis;
+            causeFlinch = _causeFlinch;
+            restBefore = _restBefore;
+            restAfter = _restAfter;
+            gripDamage = _gripDamage;
+            recoilDamage = _recoilDamage;
+            hpGain = _hpGain;
+            attackBoost = _attackBoost;
+            defenseBoost = _defenseBoost;
+            critBoost = _critBoost;
+            attackPenalty = _attackPenalty;
+            defensePenalty = _defensePenalty;
+            speedBoost = _speedBoost;
+            speedPenalty = _speedPenalty;
+			accuracyPenalty = _accuracyPenalty;
             effectChance = _effectChance;
         }
     }
