@@ -17,7 +17,7 @@ namespace PokemonTextAdventure
             Dictionary<int, Trainer> trainerdex = new Dictionary<int, Trainer>();
             Dictionary<int, Location> locationdex = new Dictionary<int, Location>();
 
-            Methods.Populate(movedex, pokedex);
+            Methods.Populate(ref movedex, ref pokedex);
             Methods.Populate(locationdex);
             Methods.Populate(trainerdex);
 
@@ -45,7 +45,30 @@ namespace PokemonTextAdventure
                 Player player = new Player();
 
                 Console.WriteLine("Hello there! Welcome to the world of Pokémon! My name is Professor Oak.");
-                Console.WriteLine("What is your name?");
+                Console.WriteLine("This world is inhabited by creatures called Pokémon! For some people, Pokémon are pets. Others use them for fights. \nMyself... I study Pokémon as a profession.\n");
+                Console.WriteLine("First, what is your name?");
+
+                player.name = Console.ReadLine();
+                if (player.name == "") { player.name = "Red"; }
+
+                Console.WriteLine($"Welcome, {player.name}!");
+                Console.WriteLine("I've known you since you were a child, so I'll give you a Pokémon to start you on your journey.");
+                Console.Write("Would you like ");
+                Methods.WriteType("Bulbasaur", "grass");
+                Console.Write(", a grass-type Pokémon, ");
+                Methods.WriteType("Charmander", "fire");
+                Console.Write(", a fire-type Pokémon, or ");
+                Methods.WriteType("Squirtle", "water");
+                Console.Write(", a water-type Pokémon?");
+
+                currentCommand = Console.ReadLine();
+                switch (currentCommand.ToLower())
+                {
+                    case "squirtle":
+                        player.party[0] = new Pokemon("Squirtle", pokedex);
+                        break;
+                }
+
             }
             
 
