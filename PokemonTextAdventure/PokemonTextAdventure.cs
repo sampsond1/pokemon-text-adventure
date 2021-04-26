@@ -10,6 +10,7 @@ namespace PokemonTextAdventure
     {
         static void Main(string[] args)
         {
+            bool shouldExit = false;
             string currentCommand;
 
             Dictionary<string, Pokemon> pokedex = new Dictionary<string, Pokemon>();
@@ -51,7 +52,7 @@ namespace PokemonTextAdventure
                 player.name = Console.ReadLine();
                 if (player.name == "") { player.name = "Red"; }
 
-                Console.WriteLine($"Welcome, {player.name}!");
+                Console.WriteLine($"\nWelcome, {player.name}!");
                 Console.WriteLine("I've known you since you were a child, so I'll give you a Pokémon to start you on your journey.");
                 Console.Write("Would you like ");
                 Methods.WriteType("Bulbasaur", "grass");
@@ -59,15 +60,40 @@ namespace PokemonTextAdventure
                 Methods.WriteType("Charmander", "fire");
                 Console.Write(", a fire-type Pokémon, or ");
                 Methods.WriteType("Squirtle", "water");
-                Console.Write(", a water-type Pokémon?");
+                Console.WriteLine(", a water-type Pokémon?");
 
-                currentCommand = Console.ReadLine();
-                switch (currentCommand.ToLower())
+                while(shouldExit == false)
                 {
-                    case "squirtle":
-                        player.party[0] = new Pokemon("Squirtle", pokedex);
-                        break;
+                    currentCommand = Console.ReadLine();
+
+                    switch (currentCommand.ToLower())
+                    {
+                        case "squirtle":
+                        case "s":
+                            player.party[0] = new Pokemon("Squirtle", pokedex);
+                            Methods.WriteType("Squirtle", "water"); Console.WriteLine("! A fine choice!");
+                            shouldExit = true;
+                            break;
+                        case "charmander":
+                        case "c":
+                            player.party[0] = new Pokemon("Charmander", pokedex);
+                            Methods.WriteType("Charmander", "fire"); Console.WriteLine("! A fine choice!");
+                            shouldExit = true;
+                            break;
+                        case "bulbasaur":
+                        case "b":
+                            player.party[0] = new Pokemon("Bulbasaur", pokedex);
+                            Methods.WriteType("Bulbasaur", "grass"); Console.WriteLine("! A fine choice!");
+                            shouldExit = true;
+                            break;
+                        default:
+                            Console.WriteLine("I'm sorry, I didn't understand that. Could you tell me again?");
+                            break;
+                    }
                 }
+
+                Console.WriteLine("Anyway, thanks for stopping by! Good luck on your adventure to become the Pokémon Master!");
+                Console.ReadLine();
 
             }
             

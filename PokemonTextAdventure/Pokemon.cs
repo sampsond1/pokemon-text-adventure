@@ -169,8 +169,20 @@ namespace PokemonTextAdventure
         public int defenseStat;
         public int speedStat;
 
+        public int hpMod;
+        public int attackMod;
+        public int defenseMod;
+        public int speedMod;
+        public int accuracyMod;
+
         public int maxHitPoints;
         public int currentHitPoints;
+        public bool isFainted;
+        public bool isParalyzed;
+        public int sleepCounter;
+        public bool isBurned;
+        public bool isPoisoned;
+        public bool isFlinching;
 
         public Pokemon(int _id, string _name, string _type, int _level, Move _move1, Move _move2, int _hpStat, int _attackStat, int _defenseStat, int _speedStat)
         {
