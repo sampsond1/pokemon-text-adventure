@@ -140,12 +140,12 @@ namespace PokemonTextAdventure
             _movedex.Add("Struggle", new Move("Struggle", 10, 50, 100, .0625, 1, false, false, false, false, false, false, false, 0, .25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1));
 
 
-            _pokedex.Add("Bulbasaur", new Pokemon(1, "Bulbasaur", "grass", 5, _movedex["Tackle"], _movedex["Vine Whip"], 1, 1, 1, 3));
-
-
-            _pokedex.Add("Charmander", new Pokemon(4, "Charmander", "fire", 5, _movedex["Scratch"], _movedex["Ember"], 1, 1, 1, 4));
-
-
+            _pokedex.Add("Bulbasaur", new Pokemon(1, "Bulbasaur", "grass", 5, _movedex["Tackle"], _movedex["Vine Whip"], 2, 3, 3, 3, 16, "Ivysaur"));
+			_pokedex.Add("Ivysaur", new Pokemon("Ivysaur", "grass", 15, _movedex["Tackle"], _movedex["Razor Leaf"], 3, 4, 4, 3, 32, "Venusaur"))
+			_pokedex.Add("Venusaur", new Pokemon("Venusaur", "grass", 30, _movedex["Vine Whip"], _movedex["Solar Beam"], 3, 5, 4, 4))
+            _pokedex.Add("Charmander", new Pokemon(4, "Charmander", "fire", 5, _movedex["Scratch"], _movedex["Ember"], 2, 3, 2, 4, 32, "Charmeleon"));
+			_pokedex.Add("Charmeleon", new Pokemon("Charmeleon", "fire", 15, _movedex["Ember"], _movedex["Slash"], 3, 4, 3, 4, 36, "Charizard"));
+			_pokedex.Add("Charizard")
             _pokedex.Add("Squirtle", new Pokemon(7, "Squirtle", "water", 5, _movedex["Tackle"], _movedex["Water Gun"], 1, 1, 1, 2));
 
 
@@ -163,6 +163,10 @@ namespace PokemonTextAdventure
         public int level;
         public Move[] move = new Move[2];
         public string type;
+		
+		public int evolvesAt;
+		public string evolvesWith;
+		public string evolvesTo;
 
         public int hpStat;
         public int attackStat;
@@ -201,6 +205,44 @@ namespace PokemonTextAdventure
             defenseStat = _defenseStat;
             speedStat = _speedStat;
             type = _type;
+
+            maxHitPoints = level * 10;
+            currentHitPoints = maxHitPoints;
+        }
+		
+		public Pokemon(int _id, string _name, string _type, int _level, Move _move1, Move _move2, int _hpStat, int _attackStat, int _defenseStat, int _speedStat, int _evolvesAt, string _evolvesTo)
+        {
+            id = _id;
+            name = _name;
+            level = _level;
+            move[0] = _move1;
+            move[1] = _move2;
+            hpStat = _hpStat;
+            attackStat = _attackStat;
+            defenseStat = _defenseStat;
+            speedStat = _speedStat;
+            type = _type;
+			evolvesAt = _evolvesAt;
+			evolvesTo = _evolvesTo;
+
+            maxHitPoints = level * 10;
+            currentHitPoints = maxHitPoints;
+        }
+
+		public Pokemon(int _id, string _name, string _type, int _level, Move _move1, Move _move2, int _hpStat, int _attackStat, int _defenseStat, int _speedStat, string _evolvesWith, string _evolvesTo)
+        {
+            id = _id;
+            name = _name;
+            level = _level;
+            move[0] = _move1;
+            move[1] = _move2;
+            hpStat = _hpStat;
+            attackStat = _attackStat;
+            defenseStat = _defenseStat;
+            speedStat = _speedStat;
+            type = _type;
+			evolvesWith = _evolvesWith;
+			evolvesTo = _evolvesTo;
 
             maxHitPoints = level * 10;
             currentHitPoints = maxHitPoints;
