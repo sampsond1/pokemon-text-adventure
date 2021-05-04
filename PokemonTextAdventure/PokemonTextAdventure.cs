@@ -41,6 +41,16 @@ namespace PokemonTextAdventure
 
             Console.WriteLine("To start a new save, enter 'n'. To load a previous one, enter 'l'.");
             currentCommand = Console.ReadLine();
+            if (currentCommand == "debug")
+            {
+                Player player = new Player();
+                player.party[0] = new Pokemon("Bulbasaur", 10, pokedex);
+                player.party[1] = new Pokemon("Charmander", 10, pokedex);
+                player.party[2] = new Pokemon("Squirtle", 10, pokedex);
+                Methods.Battle(ref player, new Pokemon("Ivysaur", 10, pokedex), movedex["Struggle"]);
+                Console.ReadLine();
+            }
+
             if (currentCommand == "n")
             {
                 Player player = new Player();

@@ -116,7 +116,7 @@ namespace PokemonTextAdventure
             _movedex.Add("String Shot", new Move("String Shot", 40, 0, 95, 0, 1, false, false, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1));
             _movedex.Add("Stun Spore", new Move("Stun Spore", 30, 0, 75, .0625, 1, false, false, false, true, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1));
             _movedex.Add("Submission", new Move("Submission", 25, 80, 80, .0625, 1, false, false, false, false, false, false, false, 0, .25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1));
-            _movedex.Add("Super Fang", new Move("Super Fang", 10, 0, 90, 0, 1, false, false, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)); //SPECIAL CASE
+            _movedex.Add("Super Fang", new Move("Super Fang", 10, 0, 90, 0, 1, false, false, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)); //SPECIAL CASE DONE
             _movedex.Add("Swift", new Move("Swift", 20, 60, 100));
             _movedex.Add("Swords Dance", new Move("Swords Dance", 30, 0, 100, 0, 1, false, false, false, false, false, false, false, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1));
             _movedex.Add("Tackle", new Move("Tackle", 35, 35, 95));
@@ -141,12 +141,12 @@ namespace PokemonTextAdventure
 
 
             _pokedex.Add("Bulbasaur", new Pokemon(1, "Bulbasaur", "grass", 5, _movedex["Tackle"], _movedex["Vine Whip"], 2, 3, 3, 3, 16, "Ivysaur"));
-			_pokedex.Add("Ivysaur", new Pokemon("Ivysaur", "grass", 15, _movedex["Tackle"], _movedex["Razor Leaf"], 3, 4, 4, 3, 32, "Venusaur"))
-			_pokedex.Add("Venusaur", new Pokemon("Venusaur", "grass", 30, _movedex["Vine Whip"], _movedex["Solar Beam"], 3, 5, 4, 4))
+            _pokedex.Add("Ivysaur", new Pokemon(2, "Ivysaur", "grass", 15, _movedex["Tackle"], _movedex["Razor Leaf"], 3, 4, 4, 3, 32, "Venusaur"));
+            _pokedex.Add("Venusaur", new Pokemon(3, "Venusaur", "grass", 30, _movedex["Vine Whip"], _movedex["Solar Beam"], 3, 5, 4, 4));
             _pokedex.Add("Charmander", new Pokemon(4, "Charmander", "fire", 5, _movedex["Scratch"], _movedex["Ember"], 2, 3, 2, 4, 32, "Charmeleon"));
-			_pokedex.Add("Charmeleon", new Pokemon("Charmeleon", "fire", 15, _movedex["Ember"], _movedex["Slash"], 3, 4, 3, 4, 36, "Charizard"));
-			_pokedex.Add("Charizard")
-            _pokedex.Add("Squirtle", new Pokemon(7, "Squirtle", "water", 5, _movedex["Tackle"], _movedex["Water Gun"], 1, 1, 1, 2));
+			_pokedex.Add("Charmeleon", new Pokemon(4, "Charmeleon", "fire", 15, _movedex["Ember"], _movedex["Slash"], 3, 4, 3, 4, 36, "Charizard"));
+            _pokedex.Add("Charizard", new Pokemon(5, "Charizard", "fire", 30, _movedex["Slash"], _movedex["Flamethrower"], 3, 6, 4, 5));
+            _pokedex.Add("Squirtle", new Pokemon(7, "Squirtle", "water", 5, _movedex["Tackle"], _movedex["Water Gun"], 2, 3, 3, 2, 16, "Wartortle"));
 
 
 
@@ -167,6 +167,7 @@ namespace PokemonTextAdventure
 		public int evolvesAt;
 		public string evolvesWith;
 		public string evolvesTo;
+        public bool hasEvolved;
 
         public int hpStat;
         public int attackStat;
@@ -192,6 +193,8 @@ namespace PokemonTextAdventure
         public bool isFlinching;
 
         public int gripCounter;
+
+        public bool didParticipate;
 
         public Pokemon(int _id, string _name, string _type, int _level, Move _move1, Move _move2, int _hpStat, int _attackStat, int _defenseStat, int _speedStat)
         {
@@ -225,7 +228,7 @@ namespace PokemonTextAdventure
 			evolvesAt = _evolvesAt;
 			evolvesTo = _evolvesTo;
 
-            maxHitPoints = level * 10;
+            maxHitPoints = (2 * 30 * level) / 100 + level + 10;
             currentHitPoints = maxHitPoints;
         }
 
@@ -244,7 +247,7 @@ namespace PokemonTextAdventure
 			evolvesWith = _evolvesWith;
 			evolvesTo = _evolvesTo;
 
-            maxHitPoints = level * 10;
+            maxHitPoints = (2 * 30 * level) / 100 + level + 10;
             currentHitPoints = maxHitPoints;
         }
 
@@ -260,7 +263,7 @@ namespace PokemonTextAdventure
             speedStat = _speedStat;
             type = _type;
 
-            maxHitPoints = level * 10;
+            maxHitPoints = (2 * 30 * level) / 100 + level + 10;
             currentHitPoints = maxHitPoints;
         }
 
@@ -273,8 +276,11 @@ namespace PokemonTextAdventure
             move[1] = _pokedex[_name].move[1];
             type = _pokedex[_name].type;
 
-            maxHitPoints = level * 10;
+            maxHitPoints = (2 * 30 * level) / 100 + level + 10;
             currentHitPoints = maxHitPoints;
+
+            move[0].currentPowerPoints = move[0].powerPoints;
+            move[1].currentPowerPoints = move[1].powerPoints;
         }
 
         public Pokemon(string _name, int _level, Dictionary<string, Pokemon> _pokedex)
@@ -286,8 +292,30 @@ namespace PokemonTextAdventure
             move[1] = _pokedex[_name].move[1];
             type = _pokedex[_name].type;
 
-            maxHitPoints = level * 10;
+            evolvesAt = _pokedex[_name].evolvesAt;
+            evolvesTo = _pokedex[_name].evolvesTo;
+            evolvesWith = _pokedex[_name].evolvesWith;
+            hasEvolved = false;
+
+            hpStat = _pokedex[_name].hpStat;
+            attackStat = _pokedex[_name].attackStat;
+            defenseStat = _pokedex[_name].defenseStat;
+            speedStat = _pokedex[_name].speedStat;
+
+            isFainted = false;
+
+            hpMod = 0;
+            attackMod = 0;
+            defenseMod = 0;
+            speedMod = 0;
+            accuracyMod = 0;
+            critMod = 0;
+
+            maxHitPoints = (2 * 30 * level) / 100 + level + 10;
             currentHitPoints = maxHitPoints;
+
+            move[0].currentPowerPoints = move[0].powerPoints;
+            move[1].currentPowerPoints = move[1].powerPoints;
         }
 
         public void WriteName()
