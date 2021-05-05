@@ -147,10 +147,36 @@ namespace PokemonTextAdventure
 			_pokedex.Add("Charmeleon", new Pokemon(4, "Charmeleon", "fire", 15, _movedex["Ember"], _movedex["Slash"], 3, 4, 3, 4, 36, "Charizard"));
             _pokedex.Add("Charizard", new Pokemon(5, "Charizard", "fire", 30, _movedex["Slash"], _movedex["Flamethrower"], 3, 6, 4, 5));
             _pokedex.Add("Squirtle", new Pokemon(7, "Squirtle", "water", 5, _movedex["Tackle"], _movedex["Water Gun"], 2, 3, 3, 2, 16, "Wartortle"));
-
-
-
-
+	    _pokedex.Add("Wartortle", new Pokemon(8, "Wartortle", "water", 15, _movedex["Water Gun"], _movedex["Bite"], 3, 3, 4, 3, 36, "Blastoise"));
+		_pokedex.Add("Blastoise", new Pokemon(9, "Blastoise", "water", 30, _movedex["Bite"], _movedex["Hydro Pump"], 3, 5, 5, 4));
+		_pokedex.Add("Caterpie", new Pokemon(10, "Caterpie", "bug", 5, _movedex["Tackle"], _movedex["String Shot"], 2, 2, 2, 3, 7, "Metapod"));
+		_pokedex.Add("Metapod", new Pokemon(11, "Metapod", "bug", 15, _movedex["Harden"], _movedex["Harden"], 2, 1, 3, 2, 10, "Butterfree"));
+		_pokedex.Add("Butterfree", new Pokemon(12, "Butterfree", "bug", 30, _movedex["Poison Powder"], _movedex["Psybeam"], 3, 4, 4, 4));
+		_pokedex.Add("Weedle", new Pokemon(13, "Weedle", "bug", 5, _movedex["Poison Sting"], _movedex["String Shot"], 2, 2, 2, 3, 7, "Kakuna"));
+		_pokedex.Add("Kakuna", new Pokemon(14, "Kakuna", "bug", 15, _movedex["Harden"], _movedex["Harden"], 2, 2, 2, 2, 10, "Beedrill"));
+		_pokedex.Add("Beedrill", new Pokemon(15, "Beedrill", "bug", 30, _movedex["Twineedle"], _movedex["Fury Attack"], 3, 4, 4, 4));
+		_pokedex.Add("Pidgey", new Pokemon(16, "Pidgey", "flying", 5, _movedex["Gust"], _movedex["Quick Attack"], 2, 3, 2, 3, 18, "Pidgeotto"));
+		_pokedex.Add("Pidgeotto", new Pokemon(17, "Pidgeotto", "flying", 15, _movedex["Quick Attack"], _movedex["Wing Attack"], 3, 3, 3, 4, 36, "Pidgeot"));
+		_pokedex.Add("Pidgeot", new Pokemon(18, "Pidgeot", "flying", 30, _movedex["Wing Attack"], _movedex["Mirror Move"], 3, 4, 3, 5));
+		_pokedex.Add("Rattata", new Pokemon(19, "Rattata", "normal", 5, _movedex["Quick Attack"], _movedex["Hyper Fang"], 2, 3, 2, 4, 20, "Raticate"));
+		_pokedex.Add("Raticate", new Pokemon(20, "Raticate", "normal", 15, _movedex["Hyper Fang"], _movedex["Super Fang"], 2, 4, 3, 5));
+		_pokedex.Add("Spearow", new Pokemon(21, "Spearow", "flying", 5, _movedex["Peck"], _movedex["Fury Attack"], 2, 3, 2, 4, 20, "Fearow"));
+		_pokedex.Add("Fearow", new Pokemon(22, "Fearow", "flying", 15, _movedex["Fury Attack"], _movedex["Drill Peck"], 3, 4, 3, 5));
+		_pokedex.Add("Ekans", new Pokemon(23, "Ekans", "poison", 5, _movedex["Wrap"], _movedex["Poison Sting"], 2, 3, 2, 3, 22, "Arbok"));
+		_pokedex.Add("Arbok", new Pokemon(24, "Arbok", "poison", 15, _movedex["Glare"], _movedex["Acid"], 3, 5, 3, 4));
+		_pokedex.Add("Pikachu", new Pokemon(25, "Pikachu", "electric", 5, _movedex["Thunder Shock"], _movedex["Quick Attack"], 2, 3, 2, 5, "thunder", "Raichu"));
+		_pokedex.Add("Raichu", new Pokemon(26, "Raichu", "electric", 15, _movedex["Swift"], _movedex["Thunder"], 3, 5, 4, 5));
+		_pokedex.Add("Sandshrew", new Pokemon(27, "Sandshrew", "ground", 5, _movedex["Scratch"], _movedex["Sand Attack"], 2, 4, 4, 2, 22, "Sandslash"));
+		_pokedex.Add("Sandslash", new Pokemon(28, "Sandslash", "ground", 15, _movedex["Sand Attack"], _movedex["Slash"], 3, 5, 5, 4));
+		_pokedex.Add("Nidoran♀", new Pokemon(29, "Nidoran♀", "poison", 5, _movedex["Tackle"], _movedex["Poison Sting"], 2, 3, 2, 2, 16, "Nidorina"));
+		_pokedex.Add("Nidorina", new Pokemon(30, "Nidorina", "poison", 15, _movedex["Poison Sting"], _movedex["Bite"], 3, 3, 3, 3, "moon", "Nidoqueen"));
+		_pokedex.Add("Nidoqueen", new Pokemon(31, "Nidoqueen", "poison", 30, _movedex["Poison Sting"], _movedex["Body Slam"], 4, 4, 4, 4));
+		_pokedex.Add("Nidoran♂", new Pokemon(32, "Nidoran♂", "poison", 5, _movedex["Horn Attack"], _movedex["Poison Sting"], 2, 3, 2, 3, 16));
+		_pokedex.Add("Nidorino", new Pokemon(33, "Nidorino", "poison", 15, _movedex["Poison Sting", _movedex["Double Kick"], 3, 4, 3, 4, "moon", "Nidoking"));
+		_pokedex.Add("Nidoking", new Pokemon(34, "Nidoking", "poison", 30, _movedex["Fury Attack"], _movedex["Horn Drill"], 3, 5, 3, 5));
+		_pokedex.Add("Clefairy", new Pokemon(35, "Clefairy", "normal", 5, _movedex["Pound"], _movedex["Sing"], 3, 3, 3, 2, "moon", "Clefable"));
+		_pokedex.Add("Clefable", new Pokemon(36, "Clefable", "normal", 15, _movedex["Double Slap"], _movedex["Metronome"], 4, 4, 4, 3));
+		
         }
     }
 
