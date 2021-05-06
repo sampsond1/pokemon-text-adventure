@@ -8,186 +8,6 @@ namespace PokemonTextAdventure
 {
     static partial class Methods
     {
-        public static void Battle(ref Player _player, Pokemon _opposingPokemon, Move _struggle)
-        {
-            Pokemon activePokemon = _player.party[0];
-            Move chosenMove;
-            string currentCommand;
-            bool ppOut;
-            bool useMove;
-            activePokemon.maxHitPoints = (2 * 30 * activePokemon.level) / 100 + activePokemon.level + 10;
-
-            Console.Write("A wild "); WriteType(_opposingPokemon.name, _opposingPokemon.type); Console.WriteLine(" appeared!");
-            Console.Write("Go, "); WriteType(activePokemon.name, activePokemon.type); Console.WriteLine("!\n");
-
-            while (_opposingPokemon.isFainted == false )
-            {
-                if (_player.party[0].isFainted == true && _player.party[1].isFainted == true && _player.party[2].isFainted == true) { goto PartyFainted; }
-
-                if (activePokemon.isFainted == true)
-                {
-                    Console.WriteLine("\nWhich Pokémon would you like to put in?");
-                    if (_player.party[0].isFainted == false) { Console.Write("1. "); _player.party[0].WriteName(); Console.Write("\n"); }
-                    if (_player.party[1].isFainted == false) { Console.Write("2. "); _player.party[1].WriteName(); Console.Write("\n"); }
-                    if (_player.party[2].isFainted == false) { Console.Write("3. "); _player.party[2].WriteName(); Console.Write("\n"); }
-
-                    currentCommand = Console.ReadLine();
-
-                    switch (currentCommand)
-                    {
-                        case "1":
-                            activePokemon = _player.party[0];
-                            Console.Write("Go, "); WriteType(activePokemon.name, activePokemon.type); Console.WriteLine("!\n");
-                            continue;
-                        case "2":
-                            activePokemon = _player.party[1];
-                            Console.Write("Go, "); WriteType(activePokemon.name, activePokemon.type); Console.WriteLine("!\n");
-                            continue;
-                        case "3":
-                            activePokemon = _player.party[2];
-                            Console.Write("Go, "); WriteType(activePokemon.name, activePokemon.type); Console.WriteLine("!\n");
-                            continue;
-                        default:
-                            Console.WriteLine("Command not recognized.");
-                            continue;
-                    }
-                }
-
-                ppOut = false;
-                useMove = false;
-                chosenMove = _struggle;
-                activePokemon.didParticipate = true;
-
-                Console.WriteLine("+-----------------------+".PadLeft(53));
-                Console.Write("| ".PadLeft(30));Methods.WriteType(_opposingPokemon.name.PadRight(13), _opposingPokemon.type);Console.Write($"{_opposingPokemon.currentHitPoints}/{_opposingPokemon.maxHitPoints}".PadRight(9) + "|\n");
-                Console.WriteLine("+-----------------------+\n".PadLeft(54));
-
-                Console.WriteLine("+-----------------------+");
-                Console.Write("| "); Methods.WriteType(activePokemon.name.PadRight(13), activePokemon.type); Console.Write($"{activePokemon.currentHitPoints}/{activePokemon.maxHitPoints}".PadRight(9) + "|\n");
-                Console.WriteLine("+-----------------------+\n");
-
-                Console.WriteLine("What would you like to do?");
-                if (activePokemon.move[0].currentPowerPoints == 0 && activePokemon.move[1].currentPowerPoints == 0)
-                {
-                    ppOut = true;
-                    Console.WriteLine("1. Use Struggle");
-                    Console.WriteLine("3. Switch Pokémon");
-                    Console.WriteLine("4. Throw a Pokéball");
-                } else
-                {
-                    Console.WriteLine($"1. Use {activePokemon.move[0].name}");
-                    Console.WriteLine($"2. Use {activePokemon.move[1].name}");
-                    Console.WriteLine("3. Switch Pokémon");
-                    Console.WriteLine("4. Throw a Pokéball");
-                }
-
-                
-
-                currentCommand = Console.ReadLine();
-                switch (currentCommand)
-                {
-                    case "1": //Move 1
-                        chosenMove = activePokemon.move[0];
-                        if (ppOut == true) { chosenMove = _struggle; }
-                        useMove = true;
-                        break;
-                    case "2": //Move 2
-                        chosenMove = activePokemon.move[1];
-                        if (ppOut == true) { chosenMove = _struggle; }
-                        useMove = true;
-                        break;
-                    case "3": //Switch Pokemon
-                        activePokemon.WriteName();Console.WriteLine(", return!\n");
-                        Console.WriteLine("Which Pokémon would you like to put in?");
-                        if (_player.party[0].isFainted == false) { Console.Write("1. "); _player.party[0].WriteName(); Console.Write("\n"); }
-                        if (_player.party[1].isFainted == false) { Console.Write("2. "); _player.party[1].WriteName(); Console.Write("\n"); }
-                        if (_player.party[2].isFainted == false) { Console.Write("3. "); _player.party[2].WriteName(); Console.Write("\n"); }
-
-                        currentCommand = Console.ReadLine();
-
-                        switch (currentCommand)
-                        {
-                            case "1":
-                                activePokemon = _player.party[0];
-                                Console.Write("\nGo,"); WriteType(activePokemon.name, activePokemon.type); Console.WriteLine("!\n");
-                                continue;
-                            case "2":
-                                activePokemon = _player.party[1];
-                                Console.Write("\nGo,"); WriteType(activePokemon.name, activePokemon.type); Console.WriteLine("!\n");
-                                continue;
-                            case "3":
-                                activePokemon = _player.party[2];
-                                Console.Write("\nGo,"); WriteType(activePokemon.name, activePokemon.type); Console.WriteLine("!\n");
-                                continue;
-
-                        }
-                        break;
-                    case "4": //Catch Pokemon
-
-                        break;
-                    default:
-                        Console.WriteLine("Command not recognized.");
-                        break;
-                }
-
-                if (useMove == true)
-                {
-                    if (chosenMove.restBefore == true)
-                    {
-                        ApplyMove(ref _opposingPokemon, ref activePokemon);
-                        if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref _opposingPokemon) == true) { continue; }
-                    }
-
-                    if (chosenMove.name == "Quick Attack")
-                    {
-                        ApplyMove(ref activePokemon, ref chosenMove, ref _opposingPokemon);
-                        if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref _opposingPokemon) == true) { continue; }
-                    }
-
-                    if (_opposingPokemon.speedStat + _opposingPokemon.speedMod > activePokemon.speedStat + activePokemon.speedMod)
-                    {
-                        ApplyMove(ref _opposingPokemon, ref activePokemon);
-                        if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref _opposingPokemon) == true) { continue; }
-                    }
-
-                    if (chosenMove.name != "Quick Attack" && chosenMove.name != "Mirror Move")
-                    {
-                        ApplyMove(ref activePokemon, ref chosenMove, ref _opposingPokemon);
-                        if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref _opposingPokemon) == true) { continue; }
-                    }
-
-                    if (_opposingPokemon.speedStat + _opposingPokemon.speedMod <= activePokemon.speedStat + activePokemon.speedMod)
-                    {
-                        ApplyMove(ref _opposingPokemon, ref activePokemon);
-                        if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref _opposingPokemon) == true) { continue; }
-                    }
-                }
-            }
-
-            PartyFainted:
-            if (_opposingPokemon.isFainted == true)
-            {
-                foreach (Pokemon pokemon in _player.party)
-                {
-                    if (pokemon.didParticipate == true && pokemon.isFainted == false && pokemon.level != 100) { pokemon.level++; pokemon.WriteName(); Console.WriteLine(" gained a level!"); }
-                    pokemon.hpMod = 0;
-                    pokemon.attackMod = 0;
-                    pokemon.defenseMod = 0;
-                    pokemon.speedMod = 0;
-                    pokemon.accuracyMod = 0;
-                    pokemon.didParticipate = false;
-                    pokemon.isFlinching = false;
-                    pokemon.gripCounter = 0;
-                    if (pokemon.level >= pokemon.evolvesAt)
-                    {
-                        pokemon.WriteName();Console.Write(" evolved into a ");Methods.WriteType(pokemon.evolvesTo, pokemon.type);Console.WriteLine("!");
-                        pokemon.hasEvolved = true;
-                    }
-                }
-                
-            }
-
-        }
 
         public static void ApplyMove(ref Pokemon opposingPokemon, ref Pokemon target)
         {
@@ -206,9 +26,9 @@ namespace PokemonTextAdventure
                 Console.Write("Enemy "); Methods.WriteType(opposingPokemon.name, opposingPokemon.type);Console.WriteLine(" is paralyzed! It can't move!");
                 return;
             }
-            if (target.isFlinching == true)
+            if (opposingPokemon.isFlinching == true)
             {
-                target.isFlinching = false;
+                opposingPokemon.isFlinching = false;
                 Console.Write("Enemy "); Methods.WriteType(opposingPokemon.name, opposingPokemon.type);Console.WriteLine(" flinched!");
                 return;
             }
@@ -264,11 +84,17 @@ namespace PokemonTextAdventure
                     //NORMAL CASES
 
                     if (currentMove.critChance != 0 && random.NextDouble() <= (currentMove.critChance * opposingPokemon.critMod)) { critHitMultiplier = 2; }
-                    damage = (((((2 * opposingPokemon.level) / 5) * currentMove.damage * (opposingPokemon.attackStat + opposingPokemon.attackMod) / (target.defenseStat + target.defenseMod)) / 50) + 2) * critHitMultiplier;
-                    target.currentHitPoints = (target.currentHitPoints - damage);
-                    currentMove.powerPoints--;
-                    Console.WriteLine($"It dealt {damage} damage!");
-                    if (critHitMultiplier == 2) { Console.WriteLine("A critical hit!"); }
+                    if (currentMove.damage != 0)
+                    {
+                        damage = (((((2 * opposingPokemon.level) / 5) * currentMove.damage * (opposingPokemon.attackStat + opposingPokemon.attackMod) / (target.defenseStat + target.defenseMod)) / 50) + 2) * critHitMultiplier;
+                        target.currentHitPoints = (target.currentHitPoints - damage);
+                        currentMove.currentPowerPoints--;
+                        Console.WriteLine($"It dealt {damage} damage!");
+                        if (critHitMultiplier == 2) { Console.WriteLine("A critical hit!"); }
+                    } else
+                    {
+                        damage = 0;
+                    }
                     critHitMultiplier = 1;
 
                     if (currentMove.causeBurn == true && random.NextDouble() < currentMove.effectChance && target.isBurned == false) { target.isBurned = true; target.WriteName(); Console.WriteLine(" was burned!"); }
@@ -384,7 +210,8 @@ namespace PokemonTextAdventure
             if (activePokemon.sleepCounter > 0)
             {
                 activePokemon.sleepCounter--;
-                Methods.WriteType(activePokemon.name, activePokemon.type); Console.WriteLine(" is fast asleep!");
+                if (activePokemon.sleepCounter > 0) { Methods.WriteType(activePokemon.name, activePokemon.type); Console.WriteLine(" is fast asleep!"); }
+                if (activePokemon.sleepCounter == 0) { activePokemon.WriteName(); Console.WriteLine("woke up!"); }
                 return;
             }
             if (activePokemon.isParalyzed == true && random.Next(0, 4) == 3)
@@ -392,9 +219,9 @@ namespace PokemonTextAdventure
                 Methods.WriteType(activePokemon.name, activePokemon.type); Console.WriteLine(" is paralyzed! It can't move!");
                 return;
             }
-            if (target.isFlinching == true)
+            if (activePokemon.isFlinching == true)
             {
-                target.isFlinching = false;
+                activePokemon.isFlinching = false;
                 Methods.WriteType(activePokemon.name, activePokemon.type); Console.WriteLine(" flinched!");
                 return;
             }
@@ -446,18 +273,26 @@ namespace PokemonTextAdventure
                     //NORMAL CASES
 
                     if (currentMove.critChance != 0 && random.NextDouble() <= (currentMove.critChance * activePokemon.critMod)) { critHitMultiplier = 2; }
-                    damage = (((((2 * activePokemon.level) / 5) * currentMove.damage * (activePokemon.attackStat + activePokemon.attackMod) / (target.defenseStat + target.defenseMod)) / 50) + 2) * critHitMultiplier;
-                    target.currentHitPoints -= damage;
-                    currentMove.currentPowerPoints--;
-                    Console.WriteLine($"It dealt {damage} damage!");
+                    if (currentMove.damage != 0)
+                    {
+                        damage = (((((2 * activePokemon.level) / 5) * currentMove.damage * (activePokemon.attackStat + activePokemon.attackMod) / (target.defenseStat + target.defenseMod)) / 50) + 2) * critHitMultiplier;
+                        target.currentHitPoints = (target.currentHitPoints - damage);
+                        currentMove.currentPowerPoints--;
+                        Console.WriteLine($"It dealt {damage} damage!");
+                        if (critHitMultiplier == 2) { Console.WriteLine("A critical hit!"); }
+                    }
+                    else
+                    {
+                        damage = 0;
+                    }
                     critHitMultiplier = 1;
 
-                    if (currentMove.causeBurn == true && random.NextDouble() < currentMove.effectChance && target.isBurned == false) { target.isBurned = true; activePokemon.WriteName(); Console.WriteLine(" was burned!"); }
-                    if (currentMove.causePoison == true && random.NextDouble() < currentMove.effectChance && target.isPoisoned == false) { target.isPoisoned = true; activePokemon.WriteName(); Console.WriteLine(" was poisoned!"); }
-                    if (currentMove.causeSleep == true && random.NextDouble() < currentMove.effectChance && target.sleepCounter == 0) { target.sleepCounter = random.Next(2, 6); activePokemon.WriteName(); Console.WriteLine(" fell asleep!"); }
-                    if (currentMove.causeParalysis == true && random.NextDouble() < currentMove.effectChance && target.isParalyzed == false) { target.isPoisoned = true; activePokemon.WriteName(); Console.WriteLine(" was paralyzed!"); }
+                    if (currentMove.causeBurn == true && random.NextDouble() < currentMove.effectChance && target.isBurned == false) { target.isBurned = true; target.WriteName(); Console.WriteLine(" was burned!"); }
+                    if (currentMove.causePoison == true && random.NextDouble() < currentMove.effectChance && target.isPoisoned == false) { target.isPoisoned = true; target.WriteName(); Console.WriteLine(" was poisoned!"); }
+                    if (currentMove.causeSleep == true && random.NextDouble() < currentMove.effectChance && target.sleepCounter == 0) { target.sleepCounter = random.Next(2, 6); target.WriteName(); Console.WriteLine(" fell asleep!"); }
+                    if (currentMove.causeParalysis == true && random.NextDouble() < currentMove.effectChance && target.isParalyzed == false) { target.isPoisoned = true; target.WriteName(); Console.WriteLine(" was paralyzed!"); }
                     if (currentMove.causeFlinch == true && random.NextDouble() < currentMove.effectChance && target.isFlinching == false) { target.isFlinching = true; }
-                    if (currentMove.gripDamage != 0 && random.NextDouble() < currentMove.effectChance && target.gripCounter == 0) { target.gripCounter = random.Next(2, 6); activePokemon.WriteName(); Console.WriteLine(" has been gripped!"); }
+                    if (currentMove.gripDamage != 0 && random.NextDouble() < currentMove.effectChance && target.gripCounter == 0) { target.gripCounter = random.Next(2, 6); target.WriteName(); Console.WriteLine(" has been gripped!"); }
                     if (currentMove.recoilDamage != 0 && random.NextDouble() < currentMove.effectChance)
                     {
                         if (currentMove.recoilDamage == 1) { activePokemon.WriteName(); Console.WriteLine($" dealt {activePokemon.currentHitPoints} damage to itself!"); activePokemon.currentHitPoints = 0; }
@@ -498,7 +333,7 @@ namespace PokemonTextAdventure
                     {
                         activePokemon.critMod += currentMove.critBoost;
                         activePokemon.WriteName(); Console.WriteLine(" is getting pumped!");
-                        if (activePokemon.critMod > 6) { activePokemon.critMod = 6; Console.WriteLine("It can't get any more pumped!"); }
+                        if (activePokemon.critMod > 7) { activePokemon.critMod = 7; Console.WriteLine("It can't get any more pumped!"); }
                     }
                     if (currentMove.speedBoost != 0 && random.NextDouble() < currentMove.effectChance)
                     {
@@ -566,12 +401,14 @@ namespace PokemonTextAdventure
                 pokemon.attackMod = 0;
                 pokemon.defenseMod = 0;
                 pokemon.speedMod = 0;
+                pokemon.critMod = 1;
                 pokemon.isBurned = false;
                 pokemon.isFlinching = false;
                 pokemon.isParalyzed = false;
                 pokemon.isPoisoned = false;
                 pokemon.sleepCounter = 0;
                 Console.Write("\n"); pokemon.WriteName(); Console.WriteLine(" fainted!");
+                Console.ReadLine();
                 return true;
             }
             return false;
@@ -632,7 +469,7 @@ namespace PokemonTextAdventure
                     Console.ResetColor();
                     break;
                 case "normal":
-                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.Write(text);
                     Console.ResetColor();
                     break;

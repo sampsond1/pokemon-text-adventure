@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Battle.cs" />
     <Compile Include="Locations.cs" />
     <Compile Include="Methods.cs" />
     <Compile Include="Moves.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="Pokemon.cs" />
     <Compile Include="PokemonTextAdventure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TrainerBattle.cs" />
     <Compile Include="Trainers.cs" />
   </ItemGroup>
   <ItemGroup>

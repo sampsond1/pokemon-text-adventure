@@ -18,9 +18,7 @@ namespace PokemonTextAdventure
     {
         public string name;
         public string type;
-        public Pokemon firstPokemon;
-        public Pokemon secondPokemon;
-        public Pokemon thirdPokemon;
+        public List<Pokemon> trainerParty = new List<Pokemon>();
         public string challengeMessage;
         public string defeatMessage;
 
@@ -28,9 +26,9 @@ namespace PokemonTextAdventure
         {
             name = _name;
             type = _type;
-            firstPokemon = _firstPokemon;
-            secondPokemon = _secondPokemon;
-            thirdPokemon = _thirdPokemon;
+            trainerParty.Add(_firstPokemon);
+            trainerParty.Add(_secondPokemon);
+            trainerParty.Add(_thirdPokemon);
             challengeMessage = _challengeMessage;
             defeatMessage = _defeatMessage;
         }
