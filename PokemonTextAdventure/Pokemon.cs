@@ -272,6 +272,27 @@ namespace PokemonTextAdventure
             _pokedex.Add("Gyarados", new Pokemon(130, "Gyarados", "water", 15, _movedex["Dragon Rage"], _movedex["Hydro Pump"], 4, 7, 4, 4));
             _pokedex.Add("Lapras", new Pokemon(131, "Lapras", "ice", 5, _movedex["Sing"], _movedex["Ice Beam"], 5, 5, 4, 3));
             _pokedex.Add("Ditto", new Pokemon(132, "Ditto", "normal", 5, _movedex["Transform"], _movedex["Transform"], 2, 3, 2, 3));
+	    _pokedex.Add("Eevee1", new Pokemon(133, "Eevee", "normal", 5, _movedex["Quick Attack"], _movedex["Sand Attack"], 2, 3, 3, 3, "water", "Vaporeon"));
+		_pokedex.Add("Eevee2", new Pokemon(133, "Eevee", "normal", 5, _movedex["Quick Attack"], _movedex["Sand Attack"], 2, 3, 3, 3, "fire", "Flareon"));
+		_pokedex.Add("Eevee3", new Pokemon(133, "Eevee", "normal", 5, _movedex["Quick Attack"], _movedex["Sand Attack"], 2, 3, 3, 3, "thunder", "Jolteon"));
+		_pokedex.Add("Vaporeon", new Pokemon(134, "Vaporeon", "water", 15, _movedex["Acid Armor"], _movedex["Hydro Pump"], 5, 6, 4, 4));
+		_pokedex.Add("Jolteon", new Pokemon(135, "Jolteon", "electric", 15, _movedex["Thunder Wave"], _movedex["Thunder"], 3, 6, 4, 7));
+		_pokedex.Add("Flareon", new Pokemon(136, "Flareon", "fire", 15, _movedex["Sand Attack"], _movedex["Flamethrower"], 3, 7, 5, 4));
+		_pokedex.Add("Porygon", new Pokemon(137, "Porygon", "normal", 5, _movedex["Sharpen"], _movedex["Tri Attack"], 3, 4, 3, 2));
+		_pokedex.Add("Omanyte", new Pokemon(138, "Omanyte", "water", 5, _movedex["Water Gun"], _movedex["Withdraw"], 2, 5, 4, 2, 40, "Omastar"));
+		_pokedex.Add("Omastar", new Pokemon(139, "Omastar", "water", 15, _movedex["Spike Cannon"], _movedex["Hydro Pump"], 3, 6, 5, 3));
+		_pokedex.Add("Kabuto", new Pokemon(140, "Kabuto", "rock", 5, _movedex["Harden"], _movedex["Slash"], 2, 4, 4, 3, 40, "Kabutops"));
+		_pokedex.Add("Kabutops", new Pokemon(141, "Kabutops", "rock", 15, _movedex["Slash"], _movedex["Hydro Pump"], 3, 6, 5, 4));
+		_pokedex.Add("Aerodactyl", new Pokemon(142, "Aerodactyl", "rock", 5, _movedex["Take Down"], _movedex["Hyper Beam"], 3, 6, 3, 7));
+		_pokedex.Add("Snorlax", new Pokemon(143, "Snorlax", "normal", 5, _movedex["Double Edge"], _movedex["Rest"], 6, 6, 5, 2));
+		_pokedex.Add("Articuno", new Pokemon(144, "Articuno", "ice", 5, _movedex["Blizzard"], _movedex["Agility"], 4, 5, 5, 5));
+		_pokedex.Add("Zapdos", new Pokemon(145, "Zapdos", "electric", 5, _movedex["Thunder"], _movedex["Agility"], 4, 7, 4, 5));
+		_pokedex.Add("Moltres", new Pokemon(146, "Moltres", "fire", 5, _movedex["Sky Attack"], _movedex["Agility"], 4, 7, 4, 5));
+		_pokedex.Add("Dratini", new Pokemon(147, "Dratini", "dragon", 5, _movedex["Wrap"], _movedex["Thunder Wave"], 2, 4, 2, 3, 30, "Dragonair"));
+		_pokedex.Add("Dragonair", new Pokemon(148, "Dragonair", "dragon", 15, _movedex["Dragon Rage"], _movedex["Thunder Wave"], 3, 5, 3, 4, 55, "Dragonite"));
+		_pokedex.Add("Dragonite", new Pokemon(149, "Dragonite", "dragon", 30, _movedex["Hyper Beam"], _movedex["Slam"], 4, 7, 4, 4));
+		_pokedex.Add("Mewtwo", new Pokemon(150, "Mewtwo", "psychic", 5, _movedex["Psychic"], _movedex["Recover"], 4, 8, 4, 7));
+		_pokedex.Add("Mew", new Pokemon(151, "Mew", "psychic", 5, _movedex["Metronome"], _movedex["Psychic"], 4, 5, 4, 5));
 
             _pokedex.Add("Missingno", new Pokemon(0, "Missingno", "normal", 5, _movedex["Harden"], _movedex["Harden"], 1, 1, 9, 9));
 														      
