@@ -62,7 +62,7 @@ namespace PokemonTextAdventure
             _movedex.Add("Harden", new Move("Harden", 30, 0, 100, 0, 1, false, false, false, false, false, false, false, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1));
             _movedex.Add("Headbutt", new Move("Headbutt", 15, 70, 100));
             _movedex.Add("Horn Attack", new Move("Horn Attack", 25, 65, 100));
-            _movedex.Add("Horn Drill", new Move("Horn Drill", 5, 0, 30, .0625, 0, false, false, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)); //SPECIAL CASE DONE
+            _movedex.Add("Horn Drill", new Move("Horn Drill", 5, 0, 30, .0625, 1, false, false, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)); //SPECIAL CASE DONE
             _movedex.Add("Hydro Pump", new Move("Hydro Pump", 5, 120, 80));
             _movedex.Add("Hyper Beam", new Move("Hyper Beam", 5, 120, 80, .0625, 1, false, false, false, false, false, false, true, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1));
             _movedex.Add("Hyper Fang", new Move("Hyper Fang", 15, 80, 90, .0625, 1, false, false, false, false, true, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, .1));
@@ -88,7 +88,7 @@ namespace PokemonTextAdventure
             _movedex.Add("Pound", new Move("Pound", 35, 40, 100));
             _movedex.Add("Psybeam", new Move("Psybeam", 20, 65, 100));
             _movedex.Add("Psychic", new Move("Psychic", 10, 90, 100));
-            _movedex.Add("Quick Attack", new Move("Quick Attack", 30, 40, 100)); //SPECIAL CASE
+            _movedex.Add("Quick Attack", new Move("Quick Attack", 30, 40, 100)); //SPECIAL CASE DONE
             _movedex.Add("Razor Leaf", new Move("Razor Leaf", 25, 55, 95, .125, 1, false, false, false, false, false, false, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1));
             _movedex.Add("Recover", new Move("Recover", 20, 0, 100, 0, 1, false, false, false, false, false, false, false, 0, 0, .5, 0, 0, 0, 0, 0, 0, 0, 1));
             _movedex.Add("Rest", new Move("Rest", 10, 0, 100, .0, 1, false, false, false, false, false, false, false, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1)); //SPECIAL CASE DONE
@@ -336,6 +336,7 @@ namespace PokemonTextAdventure
         public bool isBurned;
         public bool isPoisoned;
         public bool isFlinching;
+        public bool isResting;
 
         public int gripCounter;
 

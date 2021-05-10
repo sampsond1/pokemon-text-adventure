@@ -10,7 +10,7 @@ namespace PokemonTextAdventure
     {
         public static void Populate(Dictionary<int, Trainer> _trainerdex)
         {
-
+            
         }
     }
 

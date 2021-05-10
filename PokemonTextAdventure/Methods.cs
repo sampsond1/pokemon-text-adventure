@@ -9,7 +9,7 @@ namespace PokemonTextAdventure
     static partial class Methods
     {
 
-        public static void ApplyMove(ref Pokemon opposingPokemon, ref Pokemon target)
+        public static void ApplyMove(ref Move currentMove, ref Pokemon opposingPokemon, ref Pokemon target)
         {
             int critHitMultiplier = 1;
             int damage;
@@ -18,26 +18,22 @@ namespace PokemonTextAdventure
             if (opposingPokemon.sleepCounter > 0)
             {
                 opposingPokemon.sleepCounter--;
-                Console.Write("Enemy "); Methods.WriteType(opposingPokemon.name, opposingPokemon.type);Console.WriteLine(" is fast asleep!");
+                Console.Write("Enemy "); Methods.WriteType(opposingPokemon.name, opposingPokemon.type); Console.WriteLine(" is fast asleep!"); Console.ReadKey();
                 return;
             }
             if (opposingPokemon.isParalyzed == true && random.Next(0, 4) == 3)
             {
-                Console.Write("Enemy "); Methods.WriteType(opposingPokemon.name, opposingPokemon.type);Console.WriteLine(" is paralyzed! It can't move!");
+                Console.Write("Enemy "); Methods.WriteType(opposingPokemon.name, opposingPokemon.type); Console.WriteLine(" is paralyzed! It can't move!"); Console.ReadKey();
                 return;
             }
             if (opposingPokemon.isFlinching == true)
             {
                 opposingPokemon.isFlinching = false;
-                Console.Write("Enemy "); Methods.WriteType(opposingPokemon.name, opposingPokemon.type);Console.WriteLine(" flinched!");
+                Console.Write("Enemy "); Methods.WriteType(opposingPokemon.name, opposingPokemon.type); Console.WriteLine(" flinched!"); Console.ReadKey();
                 return;
             }
-            Move currentMove = opposingPokemon.move[random.Next(0, 2)];
-            while (currentMove.currentPowerPoints == 0)
-            {
-                currentMove = opposingPokemon.move[random.Next(0, 2)];
-            }
-            Console.Write("\nEnemy "); Methods.WriteType(opposingPokemon.name, opposingPokemon.type); Console.WriteLine($" used {currentMove.name}!");
+            
+            Console.Write("\nEnemy "); Methods.WriteType(opposingPokemon.name, opposingPokemon.type); Console.WriteLine($" used {currentMove.name}!"); Console.ReadKey();
 
             for (int i = currentMove.numberTimesHit; i > 0; i--)
             {
@@ -48,14 +44,14 @@ namespace PokemonTextAdventure
                     if (currentMove.name == "Dream Eater")
                     {
                         if (currentMove.critChance != 0 && random.NextDouble() <= (currentMove.critChance * opposingPokemon.critMod)) { critHitMultiplier = 2; }
-                        damage = (((((2 * opposingPokemon.level) / 5) * currentMove.damage * (opposingPokemon.attackStat + opposingPokemon.attackMod) / (target.defenseStat + target.defenseMod)) / 50) + 2) * critHitMultiplier;
+                        damage = Convert.ToInt32((((((2 * opposingPokemon.level) / 5) * currentMove.damage * (opposingPokemon.attackStat + opposingPokemon.attackMod) / (target.defenseStat + target.defenseMod)) / 50) + 2) * critHitMultiplier * (Convert.ToDouble(random.Next(85, 101)) / 100));
                         target.currentHitPoints -= damage;
                         currentMove.currentPowerPoints--;
-                        Console.WriteLine($"It dealt {damage} damage!");
+                        Console.WriteLine($"It dealt {damage} damage!"); Console.ReadKey();
                         critHitMultiplier = 1;
                         opposingPokemon.currentHitPoints += damage / 2;
                         if (opposingPokemon.currentHitPoints >= opposingPokemon.maxHitPoints) { opposingPokemon.currentHitPoints = opposingPokemon.maxHitPoints; }
-                        opposingPokemon.WriteName(); Console.Write(" healed itself by eating "); target.WriteName(); Console.WriteLine("'s dream!");
+                        opposingPokemon.WriteName(); Console.Write(" healed itself by eating "); target.WriteName(); Console.WriteLine("'s dream!"); Console.ReadKey();
                         return;
                     }
 
@@ -64,21 +60,40 @@ namespace PokemonTextAdventure
                         target.currentHitPoints = 0;
                         currentMove.currentPowerPoints--;
                         target.isFainted = true;
-                        Console.WriteLine("It's a one-hit KO!");
-                        target.WriteName(); Console.WriteLine(" fainted!");
+                        Console.WriteLine("It's a one-hit KO!"); Console.ReadKey();
+                        target.WriteName(); Console.WriteLine(" fainted!"); Console.ReadKey();
                         return;
                     }
 
                     if (currentMove.name == "Night Shade") { currentMove.damage = target.level; }
 
-                    if (currentMove.name == "Splash") { currentMove.currentPowerPoints--; Console.WriteLine("But nothing happened!"); return; }
+                    if (currentMove.name == "Splash") { currentMove.currentPowerPoints--; Console.WriteLine("But nothing happened!"); Console.ReadKey(); return; }
 
                     if (currentMove.name == "Super Fang")
                     {
                         currentMove.currentPowerPoints--;
-                        Console.WriteLine($"It dealt {target.currentHitPoints / 2} damage!");
+                        Console.WriteLine($"It dealt {target.currentHitPoints / 2} damage!"); Console.ReadKey();
                         target.currentHitPoints /= 2;
                         return;
+                    }
+
+                    if (currentMove.name == "Transform")
+                    {
+                        Console.Write("Enemy "); opposingPokemon.WriteName(); Console.Write(" transformed into "); target.WriteName(); Console.Write("."); Console.WriteLine();Console.ReadKey();
+                        opposingPokemon.type = target.type;
+                        opposingPokemon.move[0] = target.move[1];
+                        opposingPokemon.move[1] = target.move[2];
+                        opposingPokemon.move[0].currentPowerPoints = 5;
+                        opposingPokemon.move[1].currentPowerPoints = 5;
+                        opposingPokemon.attackStat = target.attackStat;
+                        opposingPokemon.attackMod = target.attackMod;
+                        opposingPokemon.defenseStat = target.defenseStat;
+                        opposingPokemon.defenseMod = target.defenseMod;
+                        opposingPokemon.critMod = target.critMod;
+                        opposingPokemon.speedStat = target.speedStat;
+                        opposingPokemon.speedMod = target.speedMod;
+                        opposingPokemon.hpStat = target.hpStat;
+                        opposingPokemon.hpMod = target.hpMod;
                     }
 
                     //NORMAL CASES
@@ -86,27 +101,28 @@ namespace PokemonTextAdventure
                     if (currentMove.critChance != 0 && random.NextDouble() <= (currentMove.critChance * opposingPokemon.critMod)) { critHitMultiplier = 2; }
                     if (currentMove.damage != 0)
                     {
-                        damage = (((((2 * opposingPokemon.level) / 5) * currentMove.damage * (opposingPokemon.attackStat + opposingPokemon.attackMod) / (target.defenseStat + target.defenseMod)) / 50) + 2) * critHitMultiplier;
+                        damage = Convert.ToInt32((((((2 * opposingPokemon.level) / 5) * currentMove.damage * (opposingPokemon.attackStat + opposingPokemon.attackMod) / (target.defenseStat + target.defenseMod)) / 50) + 2) * critHitMultiplier * (Convert.ToDouble(random.Next(85, 101)) / 100));
                         target.currentHitPoints = (target.currentHitPoints - damage);
                         currentMove.currentPowerPoints--;
-                        Console.WriteLine($"It dealt {damage} damage!");
-                        if (critHitMultiplier == 2) { Console.WriteLine("A critical hit!"); }
-                    } else
+                        Console.WriteLine($"It dealt {damage} damage!"); Console.ReadKey();
+                        if (critHitMultiplier == 2) { Console.WriteLine("A critical hit!"); Console.ReadKey(); }
+                    }
+                    else
                     {
                         damage = 0;
                     }
                     critHitMultiplier = 1;
 
-                    if (currentMove.causeBurn == true && random.NextDouble() < currentMove.effectChance && target.isBurned == false) { target.isBurned = true; target.WriteName(); Console.WriteLine(" was burned!"); }
-                    if (currentMove.causePoison == true && random.NextDouble() < currentMove.effectChance && target.isPoisoned == false) { target.isPoisoned = true; target.WriteName(); Console.WriteLine(" was poisoned!"); }
-                    if (currentMove.causeSleep == true && random.NextDouble() < currentMove.effectChance && target.sleepCounter == 0) { target.sleepCounter = random.Next(2, 6); target.WriteName(); Console.WriteLine(" fell asleep!"); }
-                    if (currentMove.causeParalysis == true && random.NextDouble() < currentMove.effectChance && target.isParalyzed == false) { target.isPoisoned = true; target.WriteName(); Console.WriteLine(" was paralyzed!"); }
+                    if (currentMove.causeBurn == true && random.NextDouble() < currentMove.effectChance && target.isBurned == false) { target.isBurned = true; target.WriteName(); Console.WriteLine(" was burned!"); Console.ReadKey(); }
+                    if (currentMove.causePoison == true && random.NextDouble() < currentMove.effectChance && target.isPoisoned == false) { target.isPoisoned = true; target.WriteName(); Console.WriteLine(" was poisoned!"); Console.ReadKey(); }
+                    if (currentMove.causeSleep == true && random.NextDouble() < currentMove.effectChance && target.sleepCounter == 0) { target.sleepCounter = random.Next(2, 6); target.WriteName(); Console.WriteLine(" fell asleep!"); Console.ReadKey(); }
+                    if (currentMove.causeParalysis == true && random.NextDouble() < currentMove.effectChance && target.isParalyzed == false) { target.isPoisoned = true; target.WriteName(); Console.WriteLine(" was paralyzed!"); Console.ReadKey(); }
                     if (currentMove.causeFlinch == true && random.NextDouble() < currentMove.effectChance && target.isFlinching == false) { target.isFlinching = true; }
-                    if (currentMove.gripDamage != 0 && random.NextDouble() < currentMove.effectChance && target.gripCounter == 0) { target.gripCounter = random.Next(2, 6); target.WriteName(); Console.WriteLine(" has been gripped!"); }
+                    if (currentMove.gripDamage != 0 && random.NextDouble() < currentMove.effectChance && target.gripCounter == 0) { target.gripCounter = random.Next(2, 6); target.WriteName(); Console.WriteLine(" has been gripped!"); Console.ReadKey(); }
                     if (currentMove.recoilDamage != 0 && random.NextDouble() < currentMove.effectChance)
                     {
-                        if (currentMove.recoilDamage == 1) { opposingPokemon.WriteName(); Console.WriteLine($" dealt {opposingPokemon.currentHitPoints} damage to itself!"); opposingPokemon.currentHitPoints = 0; }
-                        else { opposingPokemon.WriteName(); Console.WriteLine($" dealt {damage * currentMove.recoilDamage} to itself!"); opposingPokemon.currentHitPoints -= Convert.ToInt16(Math.Floor((damage * currentMove.recoilDamage))); }
+                        if (currentMove.recoilDamage == 1) { opposingPokemon.WriteName(); Console.WriteLine($" dealt {opposingPokemon.currentHitPoints} damage to itself!"); opposingPokemon.currentHitPoints = 0; Console.ReadKey(); }
+                        else { opposingPokemon.WriteName(); Console.WriteLine($" dealt {damage * currentMove.recoilDamage} to itself!"); opposingPokemon.currentHitPoints -= Convert.ToInt16(Math.Floor((damage * currentMove.recoilDamage))); Console.ReadKey(); }
                     }
                     if (currentMove.hpGain != 0 && random.NextDouble() < currentMove.effectChance)
                     {
@@ -114,7 +130,7 @@ namespace PokemonTextAdventure
                         {
                             opposingPokemon.currentHitPoints += (opposingPokemon.maxHitPoints / 2);
                             if (opposingPokemon.currentHitPoints > opposingPokemon.maxHitPoints) { opposingPokemon.currentHitPoints = opposingPokemon.maxHitPoints; }
-                            opposingPokemon.WriteName();Console.WriteLine(" healed itself!");
+                            opposingPokemon.WriteName(); Console.WriteLine(" healed itself!"); Console.ReadKey();
                         }
                         if (currentMove.name == "Rest")
                         {
@@ -123,83 +139,86 @@ namespace PokemonTextAdventure
                             opposingPokemon.isParalyzed = false;
                             opposingPokemon.isPoisoned = false;
                             opposingPokemon.sleepCounter = random.Next(2, 6);
-                            opposingPokemon.WriteName();Console.WriteLine(" fully healed itself!");
-                            opposingPokemon.WriteName(); Console.WriteLine(" fell asleep!");
+                            opposingPokemon.WriteName(); Console.WriteLine(" fully healed itself!"); Console.ReadKey();
+                            opposingPokemon.WriteName(); Console.WriteLine(" fell asleep!"); Console.ReadKey();
                         }
                     }
                     if (currentMove.attackBoost != 0 && random.NextDouble() < currentMove.effectChance)
                     {
                         opposingPokemon.attackMod += currentMove.attackBoost;
-                        opposingPokemon.WriteName();Console.WriteLine("'s attack rose!");
-                        if (opposingPokemon.attackMod > 6) { opposingPokemon.attackMod = 6; Console.WriteLine("Its attack can't go any higher!"); }
+                        opposingPokemon.WriteName(); Console.WriteLine("'s attack rose!"); Console.ReadKey();
+                        if (opposingPokemon.attackMod > 6) { opposingPokemon.attackMod = 6; Console.WriteLine("Its attack can't go any higher!"); Console.ReadKey(); }
                     }
                     if (currentMove.defenseBoost != 0 && random.NextDouble() < currentMove.effectChance)
                     {
                         opposingPokemon.defenseMod += currentMove.defenseBoost;
-                        opposingPokemon.WriteName(); Console.WriteLine("'s defense rose!");
-                        if (opposingPokemon.defenseMod > 6) { opposingPokemon.defenseMod = 6; Console.WriteLine("Its defense can't go any higher!"); }
+                        opposingPokemon.WriteName(); Console.WriteLine("'s defense rose!"); Console.ReadKey();
+                        if (opposingPokemon.defenseMod > 6) { opposingPokemon.defenseMod = 6; Console.WriteLine("Its defense can't go any higher!"); Console.ReadKey(); }
                     }
                     if (currentMove.critBoost != 0 && random.NextDouble() < currentMove.effectChance)
                     {
                         opposingPokemon.critMod += currentMove.critBoost;
-                        opposingPokemon.WriteName(); Console.WriteLine(" is getting pumped!");
-                        if (opposingPokemon.critMod > 6) { opposingPokemon.critMod = 6; Console.WriteLine("It can't get any more pumped!"); }
+                        opposingPokemon.WriteName(); Console.WriteLine(" is getting pumped!"); Console.ReadKey();
                     }
-                    if (currentMove.speedBoost != 0 && random.NextDouble() < currentMove.effectChance)
-                    {
-                        opposingPokemon.speedMod += currentMove.speedBoost;
-                        opposingPokemon.WriteName(); Console.WriteLine("'s speed rose!");
-                        if (opposingPokemon.speedMod > 6) { opposingPokemon.speedMod = 6; Console.WriteLine("Its speed can't go any higher!"); }
-                    }
-                    if (currentMove.attackPenalty != 0 && random.NextDouble() < currentMove.effectChance)
-                    {
-                        target.attackMod -= currentMove.attackPenalty;
-                        if (target.attackMod + target.attackStat <= 0)
+                        if (opposingPokemon.critMod > 6)
                         {
-                            target.attackMod = target.attackStat - 1;
-                            target.WriteName();Console.WriteLine("'s attack can't go any lower!");
+                            opposingPokemon.critMod = 6; Console.WriteLine("It can't get any more pumped!"); Console.ReadKey();
                         }
-                        target.WriteName(); Console.WriteLine("'s attack fell!");
-                        if (target.attackMod < -6) { opposingPokemon.attackMod = 6; Console.WriteLine("Its attack can't go any lower!"); }
-                    }
-                    if (currentMove.defensePenalty != 0 && random.NextDouble() < currentMove.effectChance)
-                    {
-                        target.defenseMod -= currentMove.defensePenalty;
-                        if (target.attackMod + target.attackStat <= 0)
+                        if (currentMove.speedBoost != 0 && random.NextDouble() < currentMove.effectChance)
                         {
-                            target.defenseMod = target.defenseStat - 1;
-                            target.WriteName(); Console.WriteLine("'s defense can't go any lower!");
+                            opposingPokemon.speedMod += currentMove.speedBoost;
+                            opposingPokemon.WriteName(); Console.WriteLine("'s speed rose!"); Console.ReadKey();
+                            if (opposingPokemon.speedMod > 6) { opposingPokemon.speedMod = 6; Console.WriteLine("Its speed can't go any higher!"); Console.ReadKey(); }
                         }
-                        target.WriteName(); Console.WriteLine("'s defense fell!");
-                        if (target.defenseMod < -6) { opposingPokemon.defenseMod = 6; Console.WriteLine("Its defense can't go any lower!"); }
-                    }
-                    if (currentMove.speedPenalty != 0 && random.NextDouble() < currentMove.effectChance)
-                    {
-                        target.speedMod -= currentMove.speedPenalty;
-                        if (target.speedMod + target.speedStat <= 0)
+                        if (currentMove.attackPenalty != 0 && random.NextDouble() < currentMove.effectChance)
                         {
-                            target.attackMod = target.attackStat - 1;
-                            target.WriteName(); Console.WriteLine("'s speed can't go any lower!");
+                            target.attackMod -= currentMove.attackPenalty;
+                            if (target.attackMod + target.attackStat <= 0)
+                            {
+                                target.attackMod = target.attackStat - 1;
+                                target.WriteName(); Console.WriteLine("'s attack can't go any lower!"); Console.ReadKey();
+                            }
+                            target.WriteName(); Console.WriteLine("'s attack fell!");
+                            if (target.attackMod < -6) { opposingPokemon.attackMod = 6; Console.WriteLine("Its attack can't go any lower!"); Console.ReadKey(); }
                         }
-                        target.WriteName(); Console.WriteLine("'s speed fell!");
-                        if (target.speedMod < -6) { opposingPokemon.speedMod = 6; Console.WriteLine("Its speed can't go any lower!"); }
+                        if (currentMove.defensePenalty != 0 && random.NextDouble() < currentMove.effectChance)
+                        {
+                            target.defenseMod -= currentMove.defensePenalty;
+                            if (target.attackMod + target.attackStat <= 0)
+                            {
+                                target.defenseMod = target.defenseStat - 1;
+                                target.WriteName(); Console.WriteLine("'s defense can't go any lower!"); Console.ReadKey();
+                            }
+                            target.WriteName(); Console.WriteLine("'s defense fell!"); Console.ReadKey();
+                            if (target.defenseMod < -6) { opposingPokemon.defenseMod = 6; Console.WriteLine("Its defense can't go any lower!"); Console.ReadKey(); }
+                        }
+                        if (currentMove.speedPenalty != 0 && random.NextDouble() < currentMove.effectChance)
+                        {
+                            target.speedMod -= currentMove.speedPenalty;
+                            if (target.speedMod + target.speedStat <= 0)
+                            {
+                                target.attackMod = target.attackStat - 1;
+                                target.WriteName(); Console.WriteLine("'s speed can't go any lower!"); Console.ReadKey();
+                            }
+                            target.WriteName(); Console.WriteLine("'s speed fell!"); Console.ReadKey();
+                            if (target.speedMod < -6) { opposingPokemon.speedMod = 6; Console.WriteLine("Its speed can't go any lower!"); Console.ReadKey(); }
+                        }
+                        if (currentMove.accuracyPenalty != 0 && random.NextDouble() < currentMove.effectChance)
+                        {
+                            target.accuracyMod -= currentMove.accuracyPenalty;
+                            target.WriteName(); Console.WriteLine("'s accuracy fell!"); Console.ReadKey();
+                            if (target.accuracyMod < -6) { opposingPokemon.accuracyMod = 6; Console.WriteLine("Its accuracy can't go any lower!"); Console.ReadKey(); }
+                        }
+
                     }
-                    if (currentMove.accuracyPenalty != 0 && random.NextDouble() < currentMove.effectChance)
+                    else
                     {
-                        target.accuracyMod -= currentMove.accuracyPenalty;
-                        target.WriteName(); Console.WriteLine("'s accuracy fell!");
-                        if (target.accuracyMod < -6) { opposingPokemon.accuracyMod = 6; Console.WriteLine("Its accuracy can't go any lower!"); }
+                        Console.WriteLine("The attack missed!"); Console.ReadKey();
+                        currentMove.currentPowerPoints--;
                     }
-    
+                    Console.ReadLine();
                 }
-                else
-                {
-                    Console.WriteLine("The attack missed!");
-                    currentMove.currentPowerPoints--;
-                }
-                Console.ReadLine();
             }
-        }
 
         public static void ApplyMove(ref Pokemon activePokemon,ref Move currentMove, ref Pokemon target)
         {
@@ -210,23 +229,23 @@ namespace PokemonTextAdventure
             if (activePokemon.sleepCounter > 0)
             {
                 activePokemon.sleepCounter--;
-                if (activePokemon.sleepCounter > 0) { Methods.WriteType(activePokemon.name, activePokemon.type); Console.WriteLine(" is fast asleep!"); }
-                if (activePokemon.sleepCounter == 0) { activePokemon.WriteName(); Console.WriteLine("woke up!"); }
+                if (activePokemon.sleepCounter > 0) { Methods.WriteType(activePokemon.name, activePokemon.type); Console.WriteLine(" is fast asleep!"); Console.ReadKey(); }
+                if (activePokemon.sleepCounter == 0) { activePokemon.WriteName(); Console.WriteLine("woke up!"); Console.ReadKey(); }
                 return;
             }
             if (activePokemon.isParalyzed == true && random.Next(0, 4) == 3)
             {
-                Methods.WriteType(activePokemon.name, activePokemon.type); Console.WriteLine(" is paralyzed! It can't move!");
+                Methods.WriteType(activePokemon.name, activePokemon.type); Console.WriteLine(" is paralyzed! It can't move!"); Console.ReadKey();
                 return;
             }
             if (activePokemon.isFlinching == true)
             {
                 activePokemon.isFlinching = false;
-                Methods.WriteType(activePokemon.name, activePokemon.type); Console.WriteLine(" flinched!");
+                Methods.WriteType(activePokemon.name, activePokemon.type); Console.WriteLine(" flinched!"); Console.ReadKey();
                 return;
             }
 
-            Console.Write("\n"); Methods.WriteType(activePokemon.name, activePokemon.type); Console.WriteLine($" used {currentMove.name}!");
+            Console.Write("\n"); Methods.WriteType(activePokemon.name, activePokemon.type); Console.WriteLine($" used {currentMove.name}!"); Console.ReadKey();
 
             for (int i = currentMove.numberTimesHit; i > 0; i--)
             {
@@ -240,11 +259,11 @@ namespace PokemonTextAdventure
                         damage = (((((2 * activePokemon.level) / 5) * currentMove.damage * (activePokemon.attackStat + activePokemon.attackMod) / (target.defenseStat + target.defenseMod)) / 50) + 2) * critHitMultiplier;
                         target.currentHitPoints -= damage;
                         currentMove.currentPowerPoints--;
-                        Console.WriteLine($"It dealt {damage} damage!");
+                        Console.WriteLine($"It dealt {damage} damage!"); Console.ReadKey();
                         critHitMultiplier = 1;
                         activePokemon.currentHitPoints += damage / 2;
                         if (activePokemon.currentHitPoints >= activePokemon.maxHitPoints) { activePokemon.currentHitPoints = activePokemon.maxHitPoints; }
-                        activePokemon.WriteName(); Console.Write(" healed itself by eating "); target.WriteName(); Console.WriteLine("'s dream!");
+                        activePokemon.WriteName(); Console.Write(" healed itself by eating "); target.WriteName(); Console.WriteLine("'s dream!"); Console.ReadKey();
                         return;
                     }
 
@@ -253,21 +272,39 @@ namespace PokemonTextAdventure
                         target.currentHitPoints = 0;
                         currentMove.currentPowerPoints--;
                         target.isFainted = true;
-                        Console.WriteLine("It's a one-hit KO!");
-                        target.WriteName(); Console.WriteLine(" fainted!");
+                        Console.WriteLine("It's a one-hit KO!"); Console.ReadKey();
                         return;
                     }
 
                     if (currentMove.name == "Night Shade") { currentMove.damage = target.level; }
 
-                    if (currentMove.name == "Splash") { currentMove.currentPowerPoints--; Console.WriteLine("But nothing happened!"); return; }
+                    if (currentMove.name == "Splash") { currentMove.currentPowerPoints--; Console.WriteLine("But nothing happened!"); Console.ReadKey(); return; }
 
                     if (currentMove.name == "Super Fang")
                     {
                         currentMove.currentPowerPoints--;
-                        Console.WriteLine($"It dealt {target.currentHitPoints / 2} damage!");
+                        Console.WriteLine($"It dealt {target.currentHitPoints / 2} damage!"); Console.ReadKey();
                         target.currentHitPoints /= 2;
                         return;
+                    }
+
+                    if (currentMove.name == "Transform")
+                    {
+                        activePokemon.WriteName(); Console.Write(" transformed into "); target.WriteName(); Console.WriteLine();Console.Write("."); Console.ReadKey();
+                        activePokemon.type = target.type;
+                        activePokemon.move[0] = target.move[0];
+                        activePokemon.move[1] = target.move[1];
+                        activePokemon.move[0].currentPowerPoints = 5;
+                        activePokemon.move[1].currentPowerPoints = 5;
+                        activePokemon.attackStat = target.attackStat;
+                        activePokemon.attackMod = target.attackMod;
+                        activePokemon.defenseStat = target.defenseStat;
+                        activePokemon.defenseMod = target.defenseMod;
+                        activePokemon.critMod = target.critMod;
+                        activePokemon.speedStat = target.speedStat;
+                        activePokemon.speedMod = target.speedMod;
+                        activePokemon.hpStat = target.hpStat;
+                        activePokemon.hpMod = target.hpMod;
                     }
 
                     //NORMAL CASES
@@ -275,11 +312,11 @@ namespace PokemonTextAdventure
                     if (currentMove.critChance != 0 && random.NextDouble() <= (currentMove.critChance * activePokemon.critMod)) { critHitMultiplier = 2; }
                     if (currentMove.damage != 0)
                     {
-                        damage = (((((2 * activePokemon.level) / 5) * currentMove.damage * (activePokemon.attackStat + activePokemon.attackMod) / (target.defenseStat + target.defenseMod)) / 50) + 2) * critHitMultiplier;
+                        damage = Convert.ToInt32((((((2 * activePokemon.level) / 5) * currentMove.damage * (activePokemon.attackStat + activePokemon.attackMod) / (target.defenseStat + target.defenseMod)) / 50) + 2) * critHitMultiplier * (Convert.ToDouble(random.Next(85, 101)) / 100));
                         target.currentHitPoints = (target.currentHitPoints - damage);
                         currentMove.currentPowerPoints--;
-                        Console.WriteLine($"It dealt {damage} damage!");
-                        if (critHitMultiplier == 2) { Console.WriteLine("A critical hit!"); }
+                        Console.WriteLine($"It dealt {damage} damage!"); Console.ReadKey();
+                        if (critHitMultiplier == 2) { Console.WriteLine("A critical hit!"); Console.ReadKey(); }
                     }
                     else
                     {
@@ -287,16 +324,16 @@ namespace PokemonTextAdventure
                     }
                     critHitMultiplier = 1;
 
-                    if (currentMove.causeBurn == true && random.NextDouble() < currentMove.effectChance && target.isBurned == false) { target.isBurned = true; target.WriteName(); Console.WriteLine(" was burned!"); }
-                    if (currentMove.causePoison == true && random.NextDouble() < currentMove.effectChance && target.isPoisoned == false) { target.isPoisoned = true; target.WriteName(); Console.WriteLine(" was poisoned!"); }
-                    if (currentMove.causeSleep == true && random.NextDouble() < currentMove.effectChance && target.sleepCounter == 0) { target.sleepCounter = random.Next(2, 6); target.WriteName(); Console.WriteLine(" fell asleep!"); }
-                    if (currentMove.causeParalysis == true && random.NextDouble() < currentMove.effectChance && target.isParalyzed == false) { target.isPoisoned = true; target.WriteName(); Console.WriteLine(" was paralyzed!"); }
+                    if (currentMove.causeBurn == true && random.NextDouble() < currentMove.effectChance && target.isBurned == false) { target.isBurned = true; target.WriteName(); Console.WriteLine(" was burned!"); Console.ReadKey(); }
+                    if (currentMove.causePoison == true && random.NextDouble() < currentMove.effectChance && target.isPoisoned == false) { target.isPoisoned = true; target.WriteName(); Console.WriteLine(" was poisoned!"); Console.ReadKey(); }
+                    if (currentMove.causeSleep == true && random.NextDouble() < currentMove.effectChance && target.sleepCounter == 0) { target.sleepCounter = random.Next(2, 6); target.WriteName(); Console.WriteLine(" fell asleep!"); Console.ReadKey(); }
+                    if (currentMove.causeParalysis == true && random.NextDouble() < currentMove.effectChance && target.isParalyzed == false) { target.isPoisoned = true; target.WriteName(); Console.WriteLine(" was paralyzed!"); Console.ReadKey(); }
                     if (currentMove.causeFlinch == true && random.NextDouble() < currentMove.effectChance && target.isFlinching == false) { target.isFlinching = true; }
-                    if (currentMove.gripDamage != 0 && random.NextDouble() < currentMove.effectChance && target.gripCounter == 0) { target.gripCounter = random.Next(2, 6); target.WriteName(); Console.WriteLine(" has been gripped!"); }
+                    if (currentMove.gripDamage != 0 && random.NextDouble() < currentMove.effectChance && target.gripCounter == 0) { target.gripCounter = random.Next(2, 6); target.WriteName(); Console.WriteLine(" has been gripped!"); Console.ReadKey(); }
                     if (currentMove.recoilDamage != 0 && random.NextDouble() < currentMove.effectChance)
                     {
-                        if (currentMove.recoilDamage == 1) { activePokemon.WriteName(); Console.WriteLine($" dealt {activePokemon.currentHitPoints} damage to itself!"); activePokemon.currentHitPoints = 0; }
-                        else { activePokemon.WriteName(); Console.WriteLine($" dealt {damage * currentMove.recoilDamage} to itself!"); activePokemon.currentHitPoints -= Convert.ToInt16(Math.Floor((damage * currentMove.recoilDamage))); }
+                        if (currentMove.recoilDamage == 1) { activePokemon.WriteName(); Console.WriteLine($" dealt {activePokemon.currentHitPoints} damage to itself!"); activePokemon.currentHitPoints = 0; Console.ReadKey(); }
+                        else { activePokemon.WriteName(); Console.WriteLine($" dealt {damage * currentMove.recoilDamage} to itself!"); activePokemon.currentHitPoints -= Convert.ToInt16(Math.Floor((damage * currentMove.recoilDamage))); Console.ReadKey(); }
                     }
                     if (currentMove.hpGain != 0 && random.NextDouble() < currentMove.effectChance)
                     {
@@ -304,7 +341,7 @@ namespace PokemonTextAdventure
                         {
                             activePokemon.currentHitPoints += (activePokemon.maxHitPoints / 2);
                             if (activePokemon.currentHitPoints > activePokemon.maxHitPoints) { activePokemon.currentHitPoints = activePokemon.maxHitPoints; }
-                            activePokemon.WriteName(); Console.WriteLine(" healed itself!");
+                            activePokemon.WriteName(); Console.WriteLine(" healed itself!"); Console.ReadKey();
                         }
                         if (currentMove.name == "Rest")
                         {
@@ -313,33 +350,33 @@ namespace PokemonTextAdventure
                             activePokemon.isParalyzed = false;
                             activePokemon.isPoisoned = false;
                             activePokemon.sleepCounter = random.Next(2, 6);
-                            activePokemon.WriteName(); Console.WriteLine(" fully healed itself!");
-                            activePokemon.WriteName(); Console.WriteLine(" fell asleep!");
+                            activePokemon.WriteName(); Console.WriteLine(" fully healed itself!"); Console.ReadKey();
+                            activePokemon.WriteName(); Console.WriteLine(" fell asleep!"); Console.ReadKey();
                         }
                     }
                     if (currentMove.attackBoost != 0 && random.NextDouble() < currentMove.effectChance)
                     {
                         activePokemon.attackMod += currentMove.attackBoost;
-                        activePokemon.WriteName(); Console.WriteLine("'s attack rose!");
-                        if (activePokemon.attackMod > 6) { activePokemon.attackMod = 6; Console.WriteLine("Its attack can't go any higher!"); }
+                        activePokemon.WriteName(); Console.WriteLine("'s attack rose!"); Console.ReadKey();
+                        if (activePokemon.attackMod > 6) { activePokemon.attackMod = 6; Console.WriteLine("Its attack can't go any higher!"); Console.ReadKey(); }
                     }
                     if (currentMove.defenseBoost != 0 && random.NextDouble() < currentMove.effectChance)
                     {
                         activePokemon.defenseMod += currentMove.defenseBoost;
-                        activePokemon.WriteName(); Console.WriteLine("'s defense rose!");
-                        if (activePokemon.defenseMod > 6) { activePokemon.defenseMod = 6; Console.WriteLine("Its defense can't go any higher!"); }
+                        activePokemon.WriteName(); Console.WriteLine("'s defense rose!"); Console.ReadKey();
+                        if (activePokemon.defenseMod > 6) { activePokemon.defenseMod = 6; Console.WriteLine("Its defense can't go any higher!"); Console.ReadKey(); }
                     }
                     if (currentMove.critBoost != 0 && random.NextDouble() < currentMove.effectChance)
                     {
                         activePokemon.critMod += currentMove.critBoost;
-                        activePokemon.WriteName(); Console.WriteLine(" is getting pumped!");
-                        if (activePokemon.critMod > 7) { activePokemon.critMod = 7; Console.WriteLine("It can't get any more pumped!"); }
+                        activePokemon.WriteName(); Console.WriteLine(" is getting pumped!"); Console.ReadKey();
+                        if (activePokemon.critMod > 7) { activePokemon.critMod = 7; Console.WriteLine("It can't get any more pumped!"); Console.ReadKey(); }
                     }
                     if (currentMove.speedBoost != 0 && random.NextDouble() < currentMove.effectChance)
                     {
                         activePokemon.speedMod += currentMove.speedBoost;
-                        activePokemon.WriteName(); Console.WriteLine("'s speed rose!");
-                        if (activePokemon.speedMod > 6) { activePokemon.speedMod = 6; Console.WriteLine("Its speed can't go any higher!"); }
+                        activePokemon.WriteName(); Console.WriteLine("'s speed rose!"); Console.ReadKey();
+                        if (activePokemon.speedMod > 6) { activePokemon.speedMod = 6; Console.WriteLine("Its speed can't go any higher!"); Console.ReadKey(); }
                     }
                     if (currentMove.attackPenalty != 0 && random.NextDouble() < currentMove.effectChance)
                     {
@@ -347,10 +384,10 @@ namespace PokemonTextAdventure
                         if (target.attackMod + target.attackStat <= 0)
                         {
                             target.attackMod = target.attackStat - 1;
-                            target.WriteName(); Console.WriteLine("'s attack can't go any lower!");
+                            target.WriteName(); Console.WriteLine("'s attack can't go any lower!"); Console.ReadKey();
                         }
-                        target.WriteName(); Console.WriteLine("'s attack fell!");
-                        if (target.attackMod < -6) { activePokemon.attackMod = 6; Console.WriteLine("Its attack can't go any lower!"); }
+                        target.WriteName(); Console.WriteLine("'s attack fell!"); Console.ReadKey();
+                        if (target.attackMod < -6) { activePokemon.attackMod = 6; Console.WriteLine("Its attack can't go any lower!"); Console.ReadKey(); }
                     }
                     if (currentMove.defensePenalty != 0 && random.NextDouble() < currentMove.effectChance)
                     {
@@ -358,10 +395,10 @@ namespace PokemonTextAdventure
                         if (target.attackMod + target.attackStat <= 0)
                         {
                             target.defenseMod = target.defenseStat - 1;
-                            target.WriteName(); Console.WriteLine("'s defense can't go any lower!");
+                            target.WriteName(); Console.WriteLine("'s defense can't go any lower!"); Console.ReadKey();
                         }
-                        target.WriteName(); Console.WriteLine("'s defense fell!");
-                        if (target.defenseMod < -6) { activePokemon.defenseMod = 6; Console.WriteLine("Its defense can't go any lower!"); }
+                        target.WriteName(); Console.WriteLine("'s defense fell!"); Console.ReadKey();
+                        if (target.defenseMod < -6) { activePokemon.defenseMod = 6; Console.WriteLine("Its defense can't go any lower!"); Console.ReadKey(); }
                     }
                     if (currentMove.speedPenalty != 0 && random.NextDouble() < currentMove.effectChance)
                     {
@@ -369,21 +406,21 @@ namespace PokemonTextAdventure
                         if (target.speedMod + target.speedStat <= 0)
                         {
                             target.attackMod = target.attackStat - 1;
-                            target.WriteName(); Console.WriteLine("'s speed can't go any lower!");
+                            target.WriteName(); Console.WriteLine("'s speed can't go any lower!"); Console.ReadKey();
                         }
-                        target.WriteName(); Console.WriteLine("'s speed fell!");
-                        if (target.speedMod < -6) { activePokemon.speedMod = 6; Console.WriteLine("Its speed can't go any lower!"); }
+                        target.WriteName(); Console.WriteLine("'s speed fell!"); Console.ReadKey();
+                        if (target.speedMod < -6) { activePokemon.speedMod = 6; Console.WriteLine("Its speed can't go any lower!"); Console.ReadKey(); }
                     }
                     if (currentMove.accuracyPenalty != 0 && random.NextDouble() < currentMove.effectChance)
                     {
                         target.accuracyMod -= currentMove.accuracyPenalty;
-                        target.WriteName(); Console.WriteLine("'s accuracy fell!");
-                        if (target.accuracyMod < -6) { activePokemon.accuracyMod = 6; Console.WriteLine("Its accuracy can't go any lower!"); }
+                        target.WriteName(); Console.WriteLine("'s accuracy fell!"); Console.ReadKey();
+                        if (target.accuracyMod < -6) { activePokemon.accuracyMod = 6; Console.WriteLine("Its accuracy can't go any lower!"); Console.ReadKey(); }
                     }
                 }
                 else
                 {
-                    Console.WriteLine("The attack missed!");
+                    Console.WriteLine("The attack missed!"); Console.ReadKey();
                     currentMove.currentPowerPoints--;
                 }
                 Console.ReadLine();
