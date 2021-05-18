@@ -8,6 +8,8 @@ namespace PokemonTextAdventure
 {
     public class Player
     {
+        public bool gameRunning;
+
         public string name;
 
         public Location currentLocation;
@@ -18,7 +20,7 @@ namespace PokemonTextAdventure
 
         public static class Flags
         {
-            static bool routeOne;
+            static bool routeOne = false;
         }
     }
 }

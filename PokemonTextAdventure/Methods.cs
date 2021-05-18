@@ -9,6 +9,109 @@ namespace PokemonTextAdventure
     static partial class Methods
     {
 
+        public static void doAction(string currentCommand, ref Player player, Location currentLocation, Dictionary<string, Location> locationdex)
+        {
+            if (currentCommand == "") { return; }
+
+            if (currentCommand == "quit" || currentCommand == "q")
+            {
+                //SAVE STUFF HERE
+                player.gameRunning = false;
+            }
+
+            string[] splitCommand = currentCommand.ToLower().Split(2);
+
+            if (splitCommand[0] == "look" || splitCommand[0] == "l")
+            {
+                if (splitCommand[1] == null) { Console.WriteLine(currentLocation.description); return; }
+                else
+                {
+                    try { Console.WriteLine(currentLocation.descriptions[splitCommand[1]]); }
+                    catch
+                    {
+                        Console.WriteLine("What are you looking at? There's nothing like that here.");
+                        return;
+                    }
+                }
+            }
+
+            if (splitCommand[0] == "talk" || splitCommand[0] == "t")
+            {
+                try { Console.WriteLine(currentLocation.dialogue[splitCommand[1]]); return; }
+                catch
+                {
+                    Console.WriteLine("Who are you talking to? There's no one here like that.");
+                    return;
+                }
+            }
+
+            if (splitCommand[0] == "exit" || splitCommand[0] == "enter" || splitCommand[0] == "e")
+            {
+                try
+                {
+                    player.previousLocation = player.currentLocation;
+                    player.currentLocation = locationdex[currentLocation.exitLocations[splitCommand[1]]];
+                    
+                }
+                catch
+                {
+                    Console.WriteLine("Where are you exiting? Try using a direction ('north').");
+                }
+            }
+
+            if (splitCommand[0] == "party" || splitCommand[0] == "p")
+            {
+                foreach (Pokemon pokemon in player.party)
+                {
+                    if (pokemon.name != "Missingno")
+                    {
+                        pokemon.WriteName(); Console.Write($"  |  Lv. {pokemon.level}  |  {pokemon.currentHitPoints} / {pokemon.maxHitPoints}");
+                    }
+                }
+            }
+
+            if (splitCommand[0] == "heal" && currentLocation.canHeal)
+            {
+                Console.WriteLine("The nice lady at the counter fully healed all your Pokémon!");
+                for (int i = 0; i < 3; i++)
+                {
+                    player.party[i].currentHitPoints = player.party[i].maxHitPoints;
+                    player.party[i].isParalyzed = false;
+                    player.party[i].isBurned = false;
+                    player.party[i].isPoisoned = false;
+                    player.party[i].sleepCounter = 0;
+                    player.party[i].isFainted = false;
+                }
+            }
+
+            if (splitCommand[0] == "pc" && currentLocation.hasPc)
+            {
+                Console.WriteLine("PARTY:");
+                foreach (Pokemon pokemon in player.party)
+                {
+                    if (pokemon.name != "Missingno")
+                    {
+                        pokemon.WriteName(); Console.Write($"  |  Lv. {pokemon.level}  |  {pokemon.currentHitPoints} / {pokemon.maxHitPoints}\n");
+                    }
+                }
+                Console.WriteLine("POKÉMON IN PC:");
+                for (int i = 0; i < player.pcPokemon.Count; i++)
+                {
+                    Console.Write((i + 1) + ". ");player.pcPokemon[i].WriteName();Console.WriteLine($"  Lv. {player.pcPokemon[i].level}");
+                }
+
+                Console.WriteLine("\nWhat would you like to do?");
+                Console.WriteLine("1. Withdraw Pokémon");
+                Console.WriteLine("2. Exit");
+                currentCommand = Console.ReadLine();
+                switch(currentCommand)
+                {
+                    case 1:
+
+                }
+            }
+        }
+
         public static void ApplyMove(ref Move currentMove, ref Pokemon opposingPokemon, ref Pokemon target)
         {
             int critHitMultiplier = 1;

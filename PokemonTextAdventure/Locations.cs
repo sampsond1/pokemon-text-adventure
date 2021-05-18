@@ -19,9 +19,15 @@ namespace PokemonTextAdventure
         public string name;
         public string description;
         public List<Trainer> trainerBattles;
-        public List<Location> exitLocations;
+        public Dictionary<string, string> exitLocations = new Dictionary<string, string>();
 
-        public Location(string _name, string _description, List<Trainer> _trainerBattles, List<Location> _exitLocations)
+        public Dictionary<string, string> descriptions = new Dictionary<string, string>();
+        public Dictionary<string, string> dialogue = new Dictionary<string, string>();
+
+        public bool hasPc;
+        public bool canHeal;
+
+        public Location(string _name, string _description, List<Trainer> _trainerBattles, Dictionary<string, string> _exitLocations)
         {
             name = _name;
             description = _description;
