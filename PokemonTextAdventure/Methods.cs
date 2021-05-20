@@ -9,18 +9,21 @@ namespace PokemonTextAdventure
     static partial class Methods
     {
 
-        public static void doAction(string currentCommand, ref Player player, Location currentLocation, Dictionary<string, Location> locationdex)
+        public static void doAction(string currentCommand, ref Player player, Location currentLocation, Dictionary<string, Location> locationdex, Dictionary<string, Move> movedex)
         {
             if (currentCommand == "") { return; }
 
+            //QUIT
             if (currentCommand == "quit" || currentCommand == "q")
             {
-                //SAVE STUFF HERE
+                //save stuff here
                 player.gameRunning = false;
             }
 
-            string[] splitCommand = currentCommand.ToLower().Split(2);
+            char[] charSeparators = new char[] { ' ' };
+            string[] splitCommand = currentCommand.ToLower().Split(charSeparators, 2);
 
+            //LOOK
             if (splitCommand[0] == "look" || splitCommand[0] == "l")
             {
                 if (splitCommand[1] == null) { Console.WriteLine(currentLocation.description); return; }
@@ -35,6 +38,7 @@ namespace PokemonTextAdventure
                 }
             }
 
+            //TALK
             if (splitCommand[0] == "talk" || splitCommand[0] == "t")
             {
                 try { Console.WriteLine(currentLocation.dialogue[splitCommand[1]]); return; }
@@ -45,12 +49,17 @@ namespace PokemonTextAdventure
                 }
             }
 
+            //EXIT/ENTER
             if (splitCommand[0] == "exit" || splitCommand[0] == "enter" || splitCommand[0] == "e")
             {
                 try
                 {
-                    player.previousLocation = player.currentLocation;
+                    if (player.currentLocation.canHeal) { player.previousLocation = player.currentLocation; }
                     player.currentLocation = locationdex[currentLocation.exitLocations[splitCommand[1]]];
+
+                    Console.WriteLine(currentLocation.name.ToUpper());
+                    Console.WriteLine("-------------------------------------------------------\n");
+                    Console.WriteLine(currentLocation.description);
                     
                 }
                 catch
@@ -59,6 +68,7 @@ namespace PokemonTextAdventure
                 }
             }
 
+            //PARTY
             if (splitCommand[0] == "party" || splitCommand[0] == "p")
             {
                 foreach (Pokemon pokemon in player.party)
@@ -69,7 +79,7 @@ namespace PokemonTextAdventure
                     }
                 }
             }
-
+            //HEAL
             if (splitCommand[0] == "heal" && currentLocation.canHeal)
             {
                 Console.WriteLine("The nice lady at the counter fully healed all your Pokémon!");
@@ -83,31 +93,102 @@ namespace PokemonTextAdventure
                     player.party[i].isFainted = false;
                 }
             }
-
+            //PC
             if (splitCommand[0] == "pc" && currentLocation.hasPc)
-            {
-                Console.WriteLine("PARTY:");
-                foreach (Pokemon pokemon in player.party)
+            { 
+                bool keepRunning = true;
+                while (keepRunning)
                 {
-                    if (pokemon.name != "Missingno")
+                    Console.WriteLine("PARTY:");
+                    foreach (Pokemon pokemon in player.party)
                     {
-                        pokemon.WriteName(); Console.Write($"  |  Lv. {pokemon.level}  |  {pokemon.currentHitPoints} / {pokemon.maxHitPoints}\n");
+                        if (pokemon.name != "Missingno")
+                        {
+                            pokemon.WriteName(); Console.Write($"  |  Lv. {pokemon.level}  |  {pokemon.currentHitPoints} / {pokemon.maxHitPoints}\n");
+                        }
+                    }
+                    Console.WriteLine("POKÉMON IN PC:");
+                    for (int i = 0; i < player.pcPokemon.Count; i++)
+                    {
+                        Console.Write((i + 1) + ". "); player.pcPokemon[i].WriteName(); Console.WriteLine($"  Lv. {player.pcPokemon[i].level}");
+                    }
+
+                    Console.WriteLine("\nWhat would you like to do?");
+                    Console.WriteLine("1. Withdraw Pokémon");
+                    Console.WriteLine("2. Exit");
+                    currentCommand = Console.ReadLine();
+                    switch (currentCommand)
+                    {
+                        case "1":
+                            Console.WriteLine("Which Pokémon would you like to withdraw? (Type a number.)");
+                            currentCommand = Console.ReadLine();
+                            try
+                            {
+                                int pokemonId = int.Parse(currentCommand);
+                                Pokemon withdrawnPokemon = player.pcPokemon[pokemonId - 1];
+                                player.pcPokemon.Remove(withdrawnPokemon);
+                                Console.WriteLine("Which party member would you like to deposit? (Type a number.)");
+                                currentCommand = Console.ReadLine();
+                                pokemonId = int.Parse(currentCommand);
+                                player.party[pokemonId - 1].Heal();
+                                player.pcPokemon.Add(player.party[pokemonId - 1]);
+                                player.party[pokemonId - 1] = withdrawnPokemon;
+                                Console.Write("All done!"); Console.ReadKey();
+                                Console.Clear();
+                            }
+                            catch
+                            {
+                                Console.WriteLine("Something went wrong, please try again.");
+                            }
+                            break;
+                        case "2":
+                            Console.WriteLine("Ok, booting down."); Console.ReadKey();
+                            keepRunning = false;
+                            break;
                     }
                 }
-                Console.WriteLine("POKÉMON IN PC:");
-                for (int i = 0; i < player.pcPokemon.Count; i++)
+            }
+
+            if (splitCommand[0] == "battle" || splitCommand[0] == "b")
+            {
+                if (currentLocation.trainerBattles.Count > 0)
                 {
-                    Console.Write((i + 1) + ". ");player.pcPokemon[i].WriteName();Console.WriteLine($"  Lv. {player.pcPokemon[i].level}");
+                    if (!Methods.TrainerBattle(ref player, currentLocation.trainerBattles[0], movedex["struggle"]))
+                    {
+                        player.currentLocation = player.previousLocation;
+                        Console.WriteLine("You wake up in the last Pokémon center you visited, with all your Pokémon healed. Let's try again!");
+                        foreach (Pokemon pokemon in player.party)
+                        {
+                            pokemon.Heal();
+                        }
+                    }
+                    else
+                    {
+                        currentLocation.trainerBattles.Remove(currentLocation.trainerBattles[0]);
+                        Console.WriteLine(currentLocation.name.ToUpper());
+                        Console.WriteLine("-------------------------------------------------------\n");
+                        Console.WriteLine(currentLocation.description);
+                    }
                 }
+            }
 
-                Console.WriteLine("\nWhat would you like to do?");
-                Console.WriteLine("1. Withdraw Pokémon");
-                Console.WriteLine("2. Exit");
-                currentCommand = Console.ReadLine();
-                switch(currentCommand)
+            if (splitCommand[0] == "grass" || splitCommand[0] == "g")
+            {
+                Random random = new Random();
+                if (!Methods.WildBattle(ref player, currentLocation.wildPokemon[random.Next(0, currentLocation.wildPokemon.Count)], movedex["Struggle"]))
                 {
-                    case 1:
-
+                    player.currentLocation = player.previousLocation;
+                    Console.WriteLine("You wake up in the last Pokémon center you visited, with all your Pokémon healed. Let's try again!");
+                    foreach (Pokemon pokemon in player.party)
+                    {
+                        pokemon.Heal();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine(currentLocation.name.ToUpper());
+                    Console.WriteLine("-------------------------------------------------------\n");
+                    Console.WriteLine(currentLocation.description);
                 }
             }
         }

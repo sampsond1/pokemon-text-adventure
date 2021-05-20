@@ -18,14 +18,23 @@ namespace PokemonTextAdventure
     {
         public string name;
         public string description;
-        public List<Trainer> trainerBattles;
+
+        public List<Trainer> trainerBattles = new List<Trainer>();
+
         public Dictionary<string, string> exitLocations = new Dictionary<string, string>();
 
         public Dictionary<string, string> descriptions = new Dictionary<string, string>();
+
         public Dictionary<string, string> dialogue = new Dictionary<string, string>();
 
-        public bool hasPc;
-        public bool canHeal;
+        public bool hasPc = false;
+        public bool canHeal = false;
+
+        public bool hasGrass;
+        public List<Pokemon> wildPokemon = new List<Pokemon>();
+
+        public bool isLocked = false;
+        public string lockedText;
 
         public Location(string _name, string _description, List<Trainer> _trainerBattles, Dictionary<string, string> _exitLocations)
         {

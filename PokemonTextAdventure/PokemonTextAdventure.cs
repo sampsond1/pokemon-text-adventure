@@ -44,11 +44,10 @@ namespace PokemonTextAdventure
             if (currentCommand == "debug")
             {
                 Player player = new Player();
-                player.party[0] = new Pokemon("Ditto", 50, pokedex);
+                player.party[0] = new Pokemon("Scyther", 50, pokedex);
                 player.party[1] = new Pokemon("Missingno", 50, pokedex);
                 player.party[2] = new Pokemon("Missingno", pokedex);
-                Trainer joey = new Trainer("Joey", "Youngster", new Pokemon("Rattata", 10, pokedex), new Pokemon("Caterpie", 10, pokedex), new Pokemon("Raticate", 10, pokedex), "AAAAAAA", "AAAAAAAA");
-                Methods.Battle(ref player, ref joey, movedex["Struggle"]);
+                Methods.WildBattle(ref player, new Pokemon("Mewtwo", 30, pokedex), movedex["Struggle"]);
                 Console.ReadLine();
             }
 

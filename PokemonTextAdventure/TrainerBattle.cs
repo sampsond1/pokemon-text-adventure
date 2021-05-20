@@ -8,11 +8,11 @@ namespace PokemonTextAdventure
 {
     static partial class Methods
     {
-        public static void Battle(ref Player player, ref Trainer trainer, Move _struggle)
+        public static bool TrainerBattle(ref Player player, Trainer trainer, Move _struggle)
         {
             Pokemon activePokemon = player.party[0];
             Move chosenMove;
-            Move transform;
+            Move transform = _struggle;
             string currentCommand;
             bool ppOut;
             bool useMove;
@@ -176,66 +176,62 @@ namespace PokemonTextAdventure
                         opposingMove = opposingPokemon.move[random.Next(0, 2)];
                     }
 
-                    if (useMove == true)
+                    if (chosenMove.restBefore == true && useMove == true)
                     {
-                        if (chosenMove.restBefore == true)
-                        {
-                            Console.Write("\n"); activePokemon.WriteName(); Console.WriteLine($" is charging up!"); Console.ReadKey();
-                            ApplyMove(ref opposingMove, ref opposingPokemon, ref activePokemon);
-                            if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref opposingPokemon) == true) { continue; }
-                        }
-
-                        if (chosenMove.name == "Quick Attack")
-                        {
-                            ApplyMove(ref activePokemon, ref chosenMove, ref opposingPokemon);
-                            if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref opposingPokemon) == true) { continue; }
-                        }
-
-                        if (opposingMove.name == "Quick Attack")
-                        {
-                            ApplyMove(ref opposingMove, ref opposingPokemon, ref activePokemon);
-                            if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref opposingPokemon) == true) { continue; }
-                        }
-
-                        if (opposingPokemon.speedStat + opposingPokemon.speedMod > activePokemon.speedStat + activePokemon.speedMod && opposingMove.name != "Quick Attack")
-                        {
-                            ApplyMove(ref opposingMove, ref opposingPokemon, ref activePokemon);
-                            if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref opposingPokemon) == true) { continue; }
-                        }
-
-                        if (chosenMove.name != "Quick Attack" && chosenMove.name != "Mirror Move")
-                        {
-                            ApplyMove(ref activePokemon, ref chosenMove, ref opposingPokemon);
-                            if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref opposingPokemon) == true) { continue; }
-                        }
-
-                        if (opposingPokemon.speedStat + opposingPokemon.speedMod <= activePokemon.speedStat + activePokemon.speedMod && opposingMove.name != "Quick Attack")
-                        {
-                            ApplyMove(ref opposingMove, ref opposingPokemon, ref activePokemon);
-                            if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref opposingPokemon) == true) { continue; }
-                        }
-
-                        if (chosenMove.name == "Mirror Move")
-                        {
-                            Console.Write("\n"); Methods.WriteType(activePokemon.name, activePokemon.type); Console.WriteLine($" used Mirror Move!"); Console.ReadKey();
-                            ApplyMove(ref activePokemon, ref opposingMove, ref opposingPokemon);
-                            if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref opposingPokemon) == true) { continue; }
-                        }
-
-                        if (opposingPokemon.isBurned == true) { Console.Write("The enemy "); opposingPokemon.WriteName(); Console.WriteLine($" took {opposingPokemon.maxHitPoints / 8} damage from its burn!"); opposingPokemon.currentHitPoints -= (opposingPokemon.maxHitPoints / 8); Console.ReadLine(); }
-                        if (opposingPokemon.isPoisoned == true) { Console.Write("The enemy "); opposingPokemon.WriteName(); Console.WriteLine($" took {opposingPokemon.maxHitPoints / 16} damage from the poison!"); opposingPokemon.currentHitPoints -= (opposingPokemon.maxHitPoints / 16); Console.ReadLine(); }
-                        if (opposingPokemon.gripCounter != 0) { Console.Write("The enemy "); opposingPokemon.WriteName(); Console.WriteLine($" took damage from being gripped!"); opposingPokemon.currentHitPoints -= (((((2 * activePokemon.level) / 5) * 15 * (activePokemon.attackStat + activePokemon.attackMod) / (opposingPokemon.defenseStat + opposingPokemon.defenseMod)) / 50) + 2); Console.ReadLine(); }
-                        CheckIfFainted(ref opposingPokemon);
-
-                        if (activePokemon.isBurned == true) { activePokemon.WriteName(); Console.WriteLine($" took {activePokemon.maxHitPoints / 8} damage from its burn!"); activePokemon.currentHitPoints -= (activePokemon.maxHitPoints / 8); Console.ReadLine(); }
-                        if (activePokemon.isPoisoned == true) { activePokemon.WriteName(); Console.WriteLine($" took {activePokemon.maxHitPoints / 16} damage from the poison!"); activePokemon.currentHitPoints -= (activePokemon.maxHitPoints / 16); Console.ReadLine(); }
-                        if (activePokemon.gripCounter != 0) { activePokemon.WriteName(); Console.WriteLine($" took damage from being gripped!"); activePokemon.currentHitPoints -= (((((2 * activePokemon.level) / 5) * 15 * (opposingPokemon.attackStat + opposingPokemon.attackMod) / (activePokemon.defenseStat + activePokemon.defenseMod)) / 50) + 2); Console.ReadLine(); }
-                        CheckIfFainted(ref activePokemon);
+                        Console.Write("\n"); activePokemon.WriteName(); Console.WriteLine($" is charging up!"); Console.ReadKey();
+                        ApplyMove(ref opposingMove, ref opposingPokemon, ref activePokemon);
+                        if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref opposingPokemon) == true) { continue; }
                     }
 
-                }
+                    if (chosenMove.name == "Quick Attack" && useMove == true)
+                    {
+                        ApplyMove(ref activePokemon, ref chosenMove, ref opposingPokemon);
+                        if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref opposingPokemon) == true) { continue; }
+                    }
 
-            PartyFainted:
+                    if (opposingMove.name == "Quick Attack")
+                    {
+                        ApplyMove(ref opposingMove, ref opposingPokemon, ref activePokemon);
+                        if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref opposingPokemon) == true) { continue; }
+                    }
+
+                    if (opposingPokemon.speedStat + opposingPokemon.speedMod > activePokemon.speedStat + activePokemon.speedMod && opposingMove.name != "Quick Attack")
+                    {
+                        ApplyMove(ref opposingMove, ref opposingPokemon, ref activePokemon);
+                        if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref opposingPokemon) == true) { continue; }
+                    }
+
+                    if (chosenMove.name != "Quick Attack" && chosenMove.name != "Mirror Move" && useMove == true)
+                    {
+                        ApplyMove(ref activePokemon, ref chosenMove, ref opposingPokemon);
+                        if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref opposingPokemon) == true) { continue; }
+                    }
+
+                    if (opposingPokemon.speedStat + opposingPokemon.speedMod <= activePokemon.speedStat + activePokemon.speedMod && opposingMove.name != "Quick Attack")
+                    {
+                        ApplyMove(ref opposingMove, ref opposingPokemon, ref activePokemon);
+                        if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref opposingPokemon) == true) { continue; }
+                    }
+
+                    if (chosenMove.name == "Mirror Move" && useMove == true)
+                    {
+                        Console.Write("\n"); Methods.WriteType(activePokemon.name, activePokemon.type); Console.WriteLine($" used Mirror Move!"); Console.ReadKey();
+                        ApplyMove(ref activePokemon, ref opposingMove, ref opposingPokemon);
+                        if (CheckIfFainted(ref activePokemon) == true || CheckIfFainted(ref opposingPokemon) == true) { continue; }
+                    }
+
+                    if (opposingPokemon.isBurned == true) { Console.Write("The enemy "); opposingPokemon.WriteName(); Console.WriteLine($" took {opposingPokemon.maxHitPoints / 8} damage from its burn!"); opposingPokemon.currentHitPoints -= (opposingPokemon.maxHitPoints / 8); Console.ReadLine(); }
+                    if (opposingPokemon.isPoisoned == true) { Console.Write("The enemy "); opposingPokemon.WriteName(); Console.WriteLine($" took {opposingPokemon.maxHitPoints / 16} damage from the poison!"); opposingPokemon.currentHitPoints -= (opposingPokemon.maxHitPoints / 16); Console.ReadLine(); }
+                    if (opposingPokemon.gripCounter != 0) { Console.Write("The enemy "); opposingPokemon.WriteName(); Console.WriteLine($" took damage from being gripped!"); opposingPokemon.currentHitPoints -= (((((2 * activePokemon.level) / 5) * 15 * (activePokemon.attackStat + activePokemon.attackMod) / (opposingPokemon.defenseStat + opposingPokemon.defenseMod)) / 50) + 2); Console.ReadLine(); }
+                    CheckIfFainted(ref opposingPokemon);
+
+                    if (activePokemon.isBurned == true) { activePokemon.WriteName(); Console.WriteLine($" took {activePokemon.maxHitPoints / 8} damage from its burn!"); activePokemon.currentHitPoints -= (activePokemon.maxHitPoints / 8); Console.ReadLine(); }
+                    if (activePokemon.isPoisoned == true) { activePokemon.WriteName(); Console.WriteLine($" took {activePokemon.maxHitPoints / 16} damage from the poison!"); activePokemon.currentHitPoints -= (activePokemon.maxHitPoints / 16); Console.ReadLine(); }
+                    if (activePokemon.gripCounter != 0) { activePokemon.WriteName(); Console.WriteLine($" took damage from being gripped!"); activePokemon.currentHitPoints -= (((((2 * activePokemon.level) / 5) * 15 * (opposingPokemon.attackStat + opposingPokemon.attackMod) / (activePokemon.defenseStat + activePokemon.defenseMod)) / 50) + 2); Console.ReadLine(); }
+                    CheckIfFainted(ref activePokemon);
+
+                }
+            
                 if (opposingPokemon.isFainted == true)
                 {
                     foreach (Pokemon pokemon in player.party)
@@ -249,8 +245,22 @@ namespace PokemonTextAdventure
 
             Console.WriteLine($"{trainer.type} {trainer.name} was defeated!"); Console.ReadKey();
             Console.WriteLine($"{trainer.name}: {trainer.defeatMessage}"); Console.ReadKey();
+
             foreach (Pokemon pokemon in player.party)
             {
+                if (pokemon.name == "Ditto")
+                {
+                    pokemon.type = "normal";
+                    pokemon.move[0] = transform;
+                    pokemon.move[1] = transform;
+                    pokemon.move[0].currentPowerPoints = 10;
+                    pokemon.move[1].currentPowerPoints = 10;
+                    pokemon.attackStat = 3;
+                    pokemon.defenseStat = 2;
+                    pokemon.speedStat = 3;
+                    pokemon.hpStat = 2;
+                }
+
                 pokemon.hpMod = 0;
                 pokemon.attackMod = 0;
                 pokemon.defenseMod = 0;
@@ -267,6 +277,12 @@ namespace PokemonTextAdventure
                     Console.ReadKey();
                 }
             }
+            return true;
+
+        PartyFainted:
+            Console.WriteLine($"{player.name} has no more usable Pokémon!");Console.ReadKey();
+            Console.WriteLine($"{player.name} whited out!");
+            return false;
         }
     }
 }

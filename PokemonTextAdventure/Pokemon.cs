@@ -319,26 +319,26 @@ namespace PokemonTextAdventure
         public int defenseStat;
         public int speedStat;
 
-        public int hpMod;
-        public int attackMod;
-        public int defenseMod;
-        public int speedMod;
-        public int accuracyMod;
-        public int critMod;
+        public int hpMod = 0;
+        public int attackMod = 0;
+        public int defenseMod = 0;
+        public int speedMod = 0;
+        public int accuracyMod = 0;
+        public int critMod = 1;
 
         public int maxHitPoints;
         public int currentHitPoints;
 
-        public bool isFainted;
+        public bool isFainted = false;
 
-        public bool isParalyzed;
-        public int sleepCounter;
-        public bool isBurned;
-        public bool isPoisoned;
-        public bool isFlinching;
-        public bool isResting;
+        public bool isParalyzed = false;
+        public int sleepCounter = 0;
+        public bool isBurned = false;
+        public bool isPoisoned = false;
+        public bool isFlinching= false;
+        public bool isResting = false;
 
-        public int gripCounter;
+        public int gripCounter = 0;
 
         public bool didParticipate;
 
@@ -462,6 +462,16 @@ namespace PokemonTextAdventure
 
             move[0].currentPowerPoints = move[0].powerPoints;
             move[1].currentPowerPoints = move[1].powerPoints;
+        }
+
+        public void Heal()
+        {
+            currentHitPoints = maxHitPoints;
+            isParalyzed = false;
+            isBurned = false;
+            isPoisoned = false;
+            sleepCounter = 0;
+            isFainted = false;
         }
 
         public void WriteName()
