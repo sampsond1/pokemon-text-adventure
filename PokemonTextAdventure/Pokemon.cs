@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using PokemonTextAdventure;
 
 namespace PokemonTextAdventure
@@ -559,6 +557,23 @@ namespace PokemonTextAdventure
             }
         }
 
+    }
+
+    public class PokemonWrapper
+    {
+        public int rate;
+        public string pokemon;
+        public int minLevel;
+        public int maxLevel;
+
+        public PokemonWrapper(int _rate, string _pokemon, int _minLevel, int _maxLevel)
+        {
+            rate = _rate;
+            pokemon = _pokemon;
+            minLevel = _minLevel;
+            maxLevel = _maxLevel;
+            
+        }
     }
 
 }

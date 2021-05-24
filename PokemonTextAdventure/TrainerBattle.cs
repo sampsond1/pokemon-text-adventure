@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PokemonTextAdventure
 {
@@ -21,9 +19,16 @@ namespace PokemonTextAdventure
                 if (pokemon.name == "Ditto") { transform = pokemon.move[0]; }
                 else { transform = _struggle; }
             }
-            Console.WriteLine($"{trainer.name}: {trainer.challengeMessage}"); Console.Read();
+            Console.WriteLine($"{trainer.name.ToUpper()}: {trainer.challengeMessage}"); Console.Read();
             Console.WriteLine($"{trainer.type} {trainer.name} challenged you to a battle!"); Console.ReadKey();
             Console.Write("Go, ");activePokemon.WriteName();Console.WriteLine("!\n"); Console.ReadKey();
+            for (int i = 0; i < 4; i++)
+            {
+                if (trainer.trainerParty[i].name == "Missingno")
+                {
+                    trainer.trainerParty.Remove(trainer.trainerParty[i]);
+                }
+            }
 
             for (int i = 0; i < trainer.trainerParty.Count; i++ )
             {

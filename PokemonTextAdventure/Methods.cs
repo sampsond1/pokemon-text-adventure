@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PokemonTextAdventure
 {
     static partial class Methods
     {
 
-        public static void doAction(string currentCommand, ref Player player, Location currentLocation, Dictionary<string, Location> locationdex, Dictionary<string, Move> movedex)
+        public static void DoAction(string currentCommand, ref Player player, Location currentLocation, ref Dictionary<string, Location> locationdex, Dictionary<string, Pokemon> pokedex, Dictionary<string, Move> movedex)
         {
             if (currentCommand == "") { return; }
 
@@ -149,11 +147,12 @@ namespace PokemonTextAdventure
                 }
             }
 
+            //BATTLE
             if (splitCommand[0] == "battle" || splitCommand[0] == "b")
             {
                 if (currentLocation.trainerBattles.Count > 0)
                 {
-                    if (!Methods.TrainerBattle(ref player, currentLocation.trainerBattles[0], movedex["struggle"]))
+                    if (!Methods.TrainerBattle(ref player, currentLocation.trainerBattles[0].trainer, movedex["struggle"]))
                     {
                         player.currentLocation = player.previousLocation;
                         Console.WriteLine("You wake up in the last Pokémon center you visited, with all your Pokémon healed. Let's try again!");
@@ -172,10 +171,23 @@ namespace PokemonTextAdventure
                 }
             }
 
+            //GRASS
             if (splitCommand[0] == "grass" || splitCommand[0] == "g")
             {
                 Random random = new Random();
-                if (!Methods.WildBattle(ref player, currentLocation.wildPokemon[random.Next(0, currentLocation.wildPokemon.Count)], movedex["Struggle"]))
+                Pokemon encounteredPokemon = new Pokemon(currentLocation.wildPokemon[0].pokemon, pokedex);
+                int randomNumber = random.Next(0, 100);
+
+                foreach (PokemonWrapper pokemon in currentLocation.wildPokemon)
+                {
+                    if (randomNumber < pokemon.rate)
+                    {
+                        encounteredPokemon = new Pokemon(pokemon.pokemon, random.Next(pokemon.minLevel, pokemon.maxLevel + 1), pokedex);
+                        break;
+                    }
+                }
+
+                if (!Methods.WildBattle(ref player, encounteredPokemon, movedex["Struggle"]))
                 {
                     player.currentLocation = player.previousLocation;
                     Console.WriteLine("You wake up in the last Pokémon center you visited, with all your Pokémon healed. Let's try again!");
