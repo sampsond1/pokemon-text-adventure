@@ -9,7 +9,7 @@ namespace PokemonTextAdventure
 
         public static void DoAction(string currentCommand, ref Player player, Location currentLocation, ref Dictionary<string, Location> locationdex, Dictionary<string, Pokemon> pokedex, Dictionary<string, Move> movedex)
         {
-            if (currentCommand == "") { return; }
+            if (currentCommand == "") { Console.Clear(); }
 
             //QUIT
             if (currentCommand == "quit" || currentCommand == "q")
@@ -24,16 +24,13 @@ namespace PokemonTextAdventure
             //LOOK
             if (splitCommand[0] == "look" || splitCommand[0] == "l")
             {
-                if (splitCommand[1] == null) { Console.WriteLine(currentLocation.description); return; }
-                else
+                try { Console.WriteLine(currentLocation.descriptions[splitCommand[1]]); }
+                catch
                 {
-                    try { Console.WriteLine(currentLocation.descriptions[splitCommand[1]]); }
-                    catch
-                    {
-                        Console.WriteLine("What are you looking at? There's nothing like that here.");
-                        return;
-                    }
+                    Console.WriteLine("What are you looking at? There's nothing like that here.");
+                    return;
                 }
+                
             }
 
             //TALK
@@ -52,12 +49,19 @@ namespace PokemonTextAdventure
             {
                 try
                 {
-                    if (player.currentLocation.canHeal) { player.previousLocation = player.currentLocation; }
-                    player.currentLocation = locationdex[currentLocation.exitLocations[splitCommand[1]]];
+                    if (locationdex[currentLocation.exitLocations[splitCommand[1]]].isLocked == true)
+                    {
+                        Console.WriteLine(locationdex[currentLocation.exitLocations[splitCommand[1]]].lockedText);
+                    }
+                    else
+                    {
+                        if (player.currentLocation.canHeal) { player.previousLocation = player.currentLocation; }
+                        player.currentLocation = locationdex[currentLocation.exitLocations[splitCommand[1]]];
 
-                    Console.WriteLine(currentLocation.name.ToUpper());
-                    Console.WriteLine("-------------------------------------------------------\n");
-                    Console.WriteLine(currentLocation.description);
+                        Console.WriteLine(currentLocation.name.ToUpper());
+                        Console.WriteLine("-------------------------------------------------------\n");
+                        Console.WriteLine(currentLocation.description);
+                    }
                     
                 }
                 catch
@@ -76,6 +80,7 @@ namespace PokemonTextAdventure
                         pokemon.WriteName(); Console.Write($"  |  Lv. {pokemon.level}  |  {pokemon.currentHitPoints} / {pokemon.maxHitPoints}");
                     }
                 }
+                Console.ReadKey();
             }
             //HEAL
             if (splitCommand[0] == "heal" && currentLocation.canHeal)
@@ -90,6 +95,7 @@ namespace PokemonTextAdventure
                     player.party[i].sleepCounter = 0;
                     player.party[i].isFainted = false;
                 }
+                Console.ReadKey();
             }
             //PC
             if (splitCommand[0] == "pc" && currentLocation.hasPc)
@@ -137,6 +143,7 @@ namespace PokemonTextAdventure
                             catch
                             {
                                 Console.WriteLine("Something went wrong, please try again.");
+                                Console.ReadKey();
                             }
                             break;
                         case "2":
@@ -203,6 +210,17 @@ namespace PokemonTextAdventure
                     Console.WriteLine(currentLocation.description);
                 }
             }
+
+            if (splitCommand[0] == "help")
+            {
+                Console.WriteLine("Commands you can use at anytime: \nenter [place]\nexit [direction]\ntalk [person]\nlook [object]/nparty");
+                Console.ReadKey();
+            }
+
+            Console.Clear();
+            Console.WriteLine(player.currentLocation.name.ToUpper());
+            Console.WriteLine("-------------------------------------------------------\n");
+            Console.WriteLine(player.currentLocation.description);
         }
 
         public static void ApplyMove(ref Move currentMove, ref Pokemon opposingPokemon, ref Pokemon target)

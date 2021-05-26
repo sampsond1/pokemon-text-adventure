@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace PokemonTextAdventure
 {
@@ -16,9 +17,20 @@ namespace PokemonTextAdventure
         public Pokemon[] party = new Pokemon[3];
         public List<Pokemon> pcPokemon = new List<Pokemon>();
 
-        public static class Flags
+        public Player()
         {
-            static bool routeOne = false;
+
+        }
+
+        [JsonConstructor]
+        public Player(bool _gameRunning, string _name, Location _currentLocation, Location _previousLocation, Pokemon[] _party, List<Pokemon> _pcPokemon)
+        {
+            gameRunning = _gameRunning;
+            name = _name;
+            currentLocation = _currentLocation;
+            previousLocation = _previousLocation;
+            party = _party;
+            pcPokemon = _pcPokemon;
         }
     }
 }

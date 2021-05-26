@@ -22,18 +22,15 @@ namespace PokemonTextAdventure
             Console.WriteLine($"{trainer.name.ToUpper()}: {trainer.challengeMessage}"); Console.Read();
             Console.WriteLine($"{trainer.type} {trainer.name} challenged you to a battle!"); Console.ReadKey();
             Console.Write("Go, ");activePokemon.WriteName();Console.WriteLine("!\n"); Console.ReadKey();
-            for (int i = 0; i < 4; i++)
+            while(trainer.trainerParty[0].name == "Missingno")
             {
-                if (trainer.trainerParty[i].name == "Missingno")
-                {
-                    trainer.trainerParty.Remove(trainer.trainerParty[i]);
-                }
+                trainer.trainerParty.Remove(trainer.trainerParty[0]);
             }
 
             for (int i = 0; i < trainer.trainerParty.Count; i++ )
             {
                 Pokemon opposingPokemon = trainer.trainerParty[i];
-                activePokemon.maxHitPoints = (2 * 30 * activePokemon.level) / 100 + activePokemon.level + 10;
+                activePokemon.maxHitPoints = (20 * activePokemon.hpStat * activePokemon.level) / 100 + activePokemon.level + 10;
 
                 Console.Write($"{trainer.type} {trainer.name} sent out "); opposingPokemon.WriteName(); Console.WriteLine("!"); Console.ReadKey();
 

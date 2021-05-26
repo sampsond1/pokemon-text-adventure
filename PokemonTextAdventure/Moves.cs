@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace PokemonTextAdventure
 {
@@ -122,7 +123,8 @@ namespace PokemonTextAdventure
             effectChance = _effectChance;
         }
 
-		public Move(string _moveName, int _powerPoints, int _damage, int _accuracy, double _critChance, int _numberTimesHit, bool _causeBurn, bool _causePoison, bool _causeSleep, bool _causeParalysis,
+        [JsonConstructor]
+        public Move(string _moveName, int _powerPoints, int _damage, int _accuracy, double _critChance, int _numberTimesHit, bool _causeBurn, bool _causePoison, bool _causeSleep, bool _causeParalysis,
             bool _causeFlinch, bool _restBefore, bool _restAfter, int _gripDamage, double _recoilDamage, double _hpGain, int _attackBoost, int _defenseBoost, int _critBoost, int _attackPenalty, int _defensePenalty, int _speedBoost, int _speedPenalty, int _accuracyPenalty, double _effectChance)
         {
             name = _moveName;

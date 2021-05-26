@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using System.Text;
 using PokemonTextAdventure;
 
@@ -340,6 +341,27 @@ namespace PokemonTextAdventure
 
         public bool didParticipate;
 
+        [JsonConstructor]
+        public Pokemon(int _id, string _name, string _type, int _level, Move _move1, Move _move2, int _hpStat, int _attackStat, int _defenseStat, int _speedStat, int _evolvesAt, string _evolvesTo, string _evolvesWith, int _currentHitPoints)
+        {
+            id = _id;
+            name = _name;
+            level = _level;
+            move[0] = _move1;
+            move[1] = _move2;
+            hpStat = _hpStat;
+            attackStat = _attackStat;
+            defenseStat = _defenseStat;
+            speedStat = _speedStat;
+            type = _type;
+            evolvesAt = _evolvesAt;
+            evolvesTo = _evolvesTo;
+            evolvesWith = _evolvesWith;
+
+            maxHitPoints = (20 * hpStat * level) / 100 + level + 10;
+            currentHitPoints = _currentHitPoints;
+        }
+
         public Pokemon(int _id, string _name, string _type, int _level, Move _move1, Move _move2, int _hpStat, int _attackStat, int _defenseStat, int _speedStat)
         {
             id = _id;
@@ -353,7 +375,7 @@ namespace PokemonTextAdventure
             speedStat = _speedStat;
             type = _type;
 
-            maxHitPoints = level * 10;
+            maxHitPoints = (20 * hpStat * level) / 100 + level + 10;
             currentHitPoints = maxHitPoints;
         }
 		
@@ -372,7 +394,7 @@ namespace PokemonTextAdventure
 			evolvesAt = _evolvesAt;
 			evolvesTo = _evolvesTo;
 
-            maxHitPoints = (2 * 30 * level) / 100 + level + 10;
+            maxHitPoints = (20 * hpStat * level) / 100 + level + 10;
             currentHitPoints = maxHitPoints;
         }
 
@@ -391,7 +413,7 @@ namespace PokemonTextAdventure
 			evolvesWith = _evolvesWith;
 			evolvesTo = _evolvesTo;
 
-            maxHitPoints = (2 * 30 * level) / 100 + level + 10;
+            maxHitPoints = (20 * hpStat * level) / 100 + level + 10;
             currentHitPoints = maxHitPoints;
         }
 
@@ -407,7 +429,7 @@ namespace PokemonTextAdventure
             speedStat = _speedStat;
             type = _type;
 
-            maxHitPoints = (2 * 30 * level) / 100 + level + 10;
+            maxHitPoints = (20 * hpStat * level) / 100 + level + 10;
             currentHitPoints = maxHitPoints;
         }
 
@@ -420,7 +442,7 @@ namespace PokemonTextAdventure
             move[1] = _pokedex[_name].move[1];
             type = _pokedex[_name].type;
 
-            maxHitPoints = (2 * 30 * level) / 100 + level + 10;
+            maxHitPoints = (20 * hpStat * level) / 100 + level + 10;
             currentHitPoints = maxHitPoints;
 
             move[0].currentPowerPoints = move[0].powerPoints;
@@ -455,7 +477,7 @@ namespace PokemonTextAdventure
             accuracyMod = 0;
             critMod = 1;
 
-            maxHitPoints = (2 * 30 * level) / 100 + level + 10;
+            maxHitPoints = (20 * hpStat * level) / 100 + level + 10;
             currentHitPoints = maxHitPoints;
 
             move[0].currentPowerPoints = move[0].powerPoints;

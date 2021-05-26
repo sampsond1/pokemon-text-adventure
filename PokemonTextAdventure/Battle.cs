@@ -14,7 +14,7 @@ namespace PokemonTextAdventure
             string currentCommand;
             bool ppOut;
             bool useMove;
-            activePokemon.maxHitPoints = (2 * 30 * activePokemon.level) / 100 + activePokemon.level + 10;
+            activePokemon.maxHitPoints = (20 * activePokemon.hpStat * activePokemon.level) / 100 + activePokemon.level + 10;
             foreach (Pokemon pokemon in _player.party)
             {
                 if (pokemon.name == "Ditto") { transform = pokemon.move[0]; }
